@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="4514" systemVersion="13B42" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3747"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="NormalCurrencyCollectionViewCell" id="2" customClass="NormalCurrencyCollectionViewCell">
+            <rect key="frame" x="0.0" y="0.0" width="300" height="60"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+            <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                <rect key="frame" x="0.0" y="0.0" width="300" height="60"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="f1O-hx-4uv">
+                        <rect key="frame" x="10" y="10" width="40" height="40"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                    </imageView>
+                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iLu-Oe-EhV">
+                        <rect key="frame" x="58" y="10" width="232" height="40"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                </subviews>
+                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+            </view>
+            <color key="backgroundColor" red="0.2196078598" green="0.45882356169999999" blue="0.84313732389999996" alpha="1" colorSpace="deviceRGB"/>
+            <constraints>
+                <constraint firstItem="iLu-Oe-EhV" firstAttribute="leading" secondItem="f1O-hx-4uv" secondAttribute="trailing" constant="8" id="2s4-RI-lFP"/>
+                <constraint firstItem="f1O-hx-4uv" firstAttribute="top" secondItem="2" secondAttribute="top" constant="10" id="AdY-Bm-Fji"/>
+                <constraint firstItem="iLu-Oe-EhV" firstAttribute="top" secondItem="2" secondAttribute="top" constant="10" id="NEN-fV-qTT"/>
+                <constraint firstAttribute="bottom" secondItem="iLu-Oe-EhV" secondAttribute="bottom" constant="10" id="S35-eG-o9n"/>
+                <constraint firstItem="f1O-hx-4uv" firstAttribute="leading" secondItem="2" secondAttribute="leading" constant="10" id="l60-te-5m6"/>
+                <constraint firstAttribute="bottom" secondItem="f1O-hx-4uv" secondAttribute="bottom" constant="10" id="wzq-JG-M96"/>
+                <constraint firstAttribute="trailing" secondItem="iLu-Oe-EhV" secondAttribute="trailing" constant="10" id="zfO-PC-edo"/>
+            </constraints>
+            <size key="customSize" width="256" height="83"/>
+            <connections>
+                <outlet property="CurrencyFlag" destination="f1O-hx-4uv" id="63S-6h-uGh"/>
+                <outlet property="CurrencyLabel" destination="iLu-Oe-EhV" id="A8q-6f-Dqv"/>
+            </connections>
+        </collectionViewCell>
+    </objects>
+</document>
