@@ -41,16 +41,16 @@ namespace CodeMania.Core
 
 
 			Log.Log ("Currencies reloaded using " + baseCurrency + " as the base");
-			Container.PublishAsync (new CurrencyHasReloadedMessage (FilterRates (baseRates, CurrencySet)));
+			Container.PublishAsync (new CurrencyHasReloadedMessage (FilterRates (baseRates, baseCurrency, CurrencySet)));
 
 		}
 
-		public Currency FilterRates (Currency source, params string[] validCurrency)
+		public Currency FilterRates (Currency source, string baseCurrency, params string[] validCurrency)
 		{
 			return new Currency () {
 				BaseCurrency = source.BaseCurrency,
 				Currencys = (from x in source.Currencys
-				             where validCurrency.Contains (x.Id)
+				             where validCurrency.Contains (x.Id) && x.Id != baseCurrency
 				             orderby x.Id
 				             select x).ToList ()
 			};
@@ -64,12 +64,12 @@ namespace CodeMania.Core
 			};
 
 			currency.Currencys = (from rate in usdRates.Currencys
-				select new CurrencyRate { Id = rate.Id, Rate = RebaseSingleCurrency(usdRates, baseCurrency, rate.Id)}).ToList ();
+			                      select new CurrencyRate { Id = rate.Id, Rate = RebaseSingleCurrency (usdRates, baseCurrency, rate.Id) }).ToList ();
 
 			return currency;
 		}
 
-		float RebaseSingleCurrency(Currency usdRates, string source, string dest)
+		float RebaseSingleCurrency (Currency usdRates, string source, string dest)
 		{
 			if (source == dest)
 				return 1;
@@ -81,7 +81,7 @@ namespace CodeMania.Core
 			//from USD to something
 			if (source == usdRates.BaseCurrency)
 			{
-				if (destRate != null) 
+				if (destRate != null)
 				{
 					return destRate.Rate;
 				}
@@ -102,7 +102,8 @@ namespace CodeMania.Core
 			{
 				var sourceInBase = 1.0f / sourceRate.Rate;
 				return sourceInBase * destRate.Rate;
-			} else {
+			} else
+			{
 				return -1;
 			}
 

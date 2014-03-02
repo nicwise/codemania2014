@@ -99,6 +99,15 @@
   </ItemGroup>
   <ItemGroup>
     <BundleResource Include="Resources\Default-568h%402x.png" />
+    <BundleResource Include="images\AUD.jpg" />
+    <BundleResource Include="images\CAD.jpg" />
+    <BundleResource Include="images\CHF.jpg" />
+    <BundleResource Include="images\EUR.jpg" />
+    <BundleResource Include="images\GBP.jpg" />
+    <BundleResource Include="images\INR.jpg" />
+    <BundleResource Include="images\JPY.jpg" />
+    <BundleResource Include="images\NZD.jpg" />
+    <BundleResource Include="images\USD.jpg" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Info.plist" />
@@ -111,15 +120,15 @@
     <Compile Include="TinyIoC.cs" />
     <Compile Include="TinyIOCWrapper.cs" />
     <Compile Include="CurrencyListCollectionViewController.cs" />
-    <Compile Include="BaseCurrencyCollectionViewCell.cs" />
-    <Compile Include="BaseCurrencyCollectionViewCell.designer.cs">
-      <DependentUpon>BaseCurrencyCollectionViewCell.cs</DependentUpon>
-    </Compile>
-    <Compile Include="NormalCurrencyCollectionViewCell.cs" />
-    <Compile Include="NormalCurrencyCollectionViewCell.designer.cs">
-      <DependentUpon>NormalCurrencyCollectionViewCell.cs</DependentUpon>
-    </Compile>
     <Compile Include="PlatformSetup.cs" />
+    <Compile Include="QuickCurrencyCell.cs" />
+    <Compile Include="QuickCurrencyCell.designer.cs">
+      <DependentUpon>QuickCurrencyCell.cs</DependentUpon>
+    </Compile>
+    <Compile Include="QuickCurrencyHeaderCell.cs" />
+    <Compile Include="QuickCurrencyHeaderCell.designer.cs">
+      <DependentUpon>QuickCurrencyHeaderCell.cs</DependentUpon>
+    </Compile>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
@@ -133,7 +142,9 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <InterfaceDefinition Include="BaseCurrencyCollectionViewCell.xib" />
-    <InterfaceDefinition Include="NormalCurrencyCollectionViewCell.xib" />
+    <InterfaceDefinition Include="CodeManiaStoryboard.storyboard" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="images\" />
   </ItemGroup>
 </Project>

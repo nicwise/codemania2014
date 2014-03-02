@@ -10,31 +10,30 @@ using System.Diagnostics;
 
 namespace CodeMania.IOS
 {
+	[Register ("CurrencyListCollectionViewController")]
 	public class CurrencyListCollectionViewController : UICollectionViewController
 	{
-		public CurrencyListCollectionViewController () : this (new UICollectionViewFlowLayout () {
-			ItemSize = new SizeF (320, 50)
-		})
+		public CurrencyListCollectionViewController (IntPtr handle) : base (handle)
 		{
-			Title = "Quick Currency";
-
-			NavigationItem.RightBarButtonItem = new UIBarButtonItem (UIBarButtonSystemItem.Refresh, (e, o) =>
-			{
-				var source = Container.Resolve<CurrencySource> ();
-				source.GetCurrencyForBase (CurrentBaseCurrency);
-			});
 		}
+
+
 
 		TinyMessageSubscriptionToken reloadToken, refreshToken;
 
-		public CurrencyListCollectionViewController (UICollectionViewLayout layout) : base (layout)
+
+
+		public override void ViewDidLoad ()
 		{
+			base.ViewDidLoad ();
+
 			reloadToken = Container.Subscribe<CurrencyHasReloadedMessage> ((msg) =>
 			{
 				CurrentCurrencyList = msg.NewCurrency;
 				InvokeOnMainThread (() =>
 				{
 					CollectionView.ReloadData ();
+					CollectionView.ScrollToItem(NSIndexPath.FromItemSection(0,0), UICollectionViewScrollPosition.Top, true);
 				});
 			});
 
@@ -44,15 +43,7 @@ namespace CodeMania.IOS
 				var source = Container.Resolve<CurrencySource> ();
 				source.GetCurrencyForBase (CurrentBaseCurrency);
 			});
-		}
 
-
-		public override void ViewDidLoad ()
-		{
-			base.ViewDidLoad ();
-
-			CollectionView.RegisterNibForCell (BaseCurrencyCollectionViewCell.Nib, BaseCurrencyCollectionViewCell.Key);
-			CollectionView.RegisterNibForCell (NormalCurrencyCollectionViewCell.Nib, NormalCurrencyCollectionViewCell.Key);
 		}
 
 		public override void ViewWillAppear (bool animated)
@@ -74,7 +65,7 @@ namespace CodeMania.IOS
 				return 0;
 			} else
 			{
-				return 2;
+				return 1;
 			}
 
 		}
@@ -86,50 +77,45 @@ namespace CodeMania.IOS
 				return 0;
 			}
 
-			switch (section)
-			{
-				case 0:
-					return 1;
-				case 1:
-					return CurrentCurrencyList.Currencys.Count;
-			}
-
-			return 0;
+			return CurrentCurrencyList.Currencys.Count;
 		}
 
 		public override UICollectionViewCell GetCell (UICollectionView collectionView, NSIndexPath indexPath)
 		{
-			if (indexPath.Section == 0)
-			{
-				var cell = collectionView.DequeueReusableCell (BaseCurrencyCollectionViewCell.Key, indexPath) as BaseCurrencyCollectionViewCell;
 
-				cell.Setup (CurrentCurrencyList.BaseCurrency, CurrentBaseCurrencyAmount);
-				return cell;
+
+			var cell = collectionView.DequeueReusableCell (QuickCurrencyCell.Key, indexPath) as QuickCurrencyCell;
+
+			var rate = CurrentCurrencyList.Currencys [indexPath.Row];
+
+			cell.Setup (rate, CurrentBaseCurrencyAmount);
+			return cell;
+
+		}
+
+		public override UICollectionReusableView GetViewForSupplementaryElement (UICollectionView collectionView, NSString elementKind, NSIndexPath indexPath)
+		{
+			if (elementKind == UICollectionElementKindSectionKey.Header)
+			{
+				var header = collectionView.DequeueReusableSupplementaryView (UICollectionElementKindSection.Header, QuickCurrencyHeaderCell.Key, indexPath) as QuickCurrencyHeaderCell;
+				header.Setup (CurrentBaseCurrency, CurrentBaseCurrencyAmount);
+				return header;
 			}
 
-			var normalCell = collectionView.DequeueReusableCell (NormalCurrencyCollectionViewCell.Key, indexPath) as NormalCurrencyCollectionViewCell;
-			normalCell.Setup (CurrentCurrencyList.Currencys [indexPath.Row], CurrentBaseCurrencyAmount);
-			return normalCell;
-
+			return null;
 		}
 
 		public override void ItemSelected (UICollectionView collectionView, NSIndexPath indexPath)
 		{
-			if (indexPath.Section == 0)
-			{
 
-			}
+			var rate = CurrentCurrencyList.Currencys [indexPath.Row];
 
-			if (indexPath.Section == 1)
-			{
-				var rate = CurrentCurrencyList.Currencys [indexPath.Row];
+			CurrentBaseCurrency = rate.Id;
+			CurrentBaseCurrencyAmount = 100f;
 
-				CurrentBaseCurrency = rate.Id;
-				CurrentBaseCurrencyAmount = 100f;
+			var source = Container.Resolve<CurrencySource> ();
+			source.GetCurrencyForBase (rate.Id);
 
-				var source = Container.Resolve<CurrencySource> ();
-				source.GetCurrencyForBase (rate.Id);
-			}
 		}
 	}
 }
