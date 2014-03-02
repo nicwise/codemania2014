@@ -23,6 +23,7 @@ namespace CodeMania.Core
 		{
 			var client = Container.Resolve<CurrencyClient> ();
 			var rates = await client.GetRates ();
+			var dogeRate = await client.GetDoge ();
 
 			if (rates == null)
 			{
@@ -30,6 +31,8 @@ namespace CodeMania.Core
 				Log.Log ("No rates returned - internet down?");
 				return;
 			}
+
+			rates.Currencys.Add (dogeRate);
 
 			var database = Container.Resolve<CurrencyDatabase> ();
 			await database.UpdateRates (rates);

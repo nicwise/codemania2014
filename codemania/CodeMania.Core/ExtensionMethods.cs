@@ -43,6 +43,15 @@ namespace CodeMania
 
 			if (string.IsNullOrEmpty(locale))
 			{
+				if (currencyName == "DOG")
+				{
+					return string.Format ("{0:0.00#####}Ɖ", value);
+				}
+				if (currencyName == "BTC")
+				{
+					return string.Format ("{0:0.00#####}", value);
+				}
+
 				return string.Format ("{0:0.00} {1}", value, currencyName);
 			}
 

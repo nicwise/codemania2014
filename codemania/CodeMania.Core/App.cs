@@ -16,7 +16,7 @@ namespace CodeMania.Core
 
 			var source = Container.Resolve<CurrencySource> ();
 			source.CurrencySet = new [] {
-				"USD", "NZD", "GBP", "JPY", "EUR", "AUD", "SKK", "INR", "CAD", "CHF"
+				"USD", "NZD", "GBP", "JPY", "EUR", "AUD", "SKK", "INR", "CAD", "CHF", "DOG", "BTC"
 			};
 
 		}

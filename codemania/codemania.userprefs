@@ -1,36 +1,16 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.IPhone.IPhoneSimulatorTarget.IPhoneRetina.7.0" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="CodeMania.IOS/AmountEditViewController.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="CodeMania.IOS/CurrencyListCollectionViewController.cs">
     <Files>
-      <File FileName="CodeMania.Core/CurrencySource.cs" Line="38" Column="40" />
-      <File FileName="CodeMania.IOS/AppDelegate.cs" Line="32" Column="4" />
-      <File FileName="CodeMania.Core/Messages.cs" Line="29" Column="22" />
-      <File FileName="CodeMania.IOS/CurrencyListCollectionViewController.cs" Line="30" Column="3" />
-      <File FileName="CodeMania.IOS/CurrencyListCollectionViewController.designer.cs" Line="1" Column="1" />
-      <File FileName="CodeMania.Tests/ClientFixture.cs" Line="49" Column="49" />
-      <File FileName="CodeMania.IOS/AmountEditViewController.designer.cs" Line="1" Column="1" />
-      <File FileName="CodeMania.IOS/AmountEditViewController.cs" Line="16" Column="3" />
+      <File FileName="CodeMania.Core/CurrencySource.cs" Line="36" Column="4" />
+      <File FileName="CodeMania.IOS/AppDelegate.cs" Line="1" Column="1" />
+      <File FileName="CodeMania.Core/Messages.cs" Line="1" Column="1" />
+      <File FileName="CodeMania.Core/Client/CurrencyClient.cs" Line="70" Column="18" />
+      <File FileName="CodeMania.Core/CurrencyDatabase.cs" Line="28" Column="4" />
+      <File FileName="CodeMania.IOS/CurrencyListCollectionViewController.cs" Line="124" Column="22" />
+      <File FileName="CodeMania.Core/App.cs" Line="24" Column="33" />
+      <File FileName="CodeMania.Core/ExtensionMethods.cs" Line="43" Column="4" />
     </Files>
-    <Pads>
-      <Pad Id="ProjectPad">
-        <State expanded="True">
-          <Node name="Core" expanded="True">
-            <Node name="BigTed.Core" expanded="True" />
-          </Node>
-          <Node name="Targets" expanded="True">
-            <Node name="CodeMania.IOS" expanded="True">
-              <Node name="ComponentReferenceFolder" expanded="True" />
-              <Node name="AmountEditViewController.cs" expanded="True" selected="True" />
-              <Node name="CurrencyListCollectionViewController.cs" expanded="True" />
-            </Node>
-          </Node>
-          <Node name="CodeMania.Core" expanded="True">
-            <Node name="Client" expanded="True" />
-          </Node>
-          <Node name="CodeMania.Tests" expanded="True" />
-        </State>
-      </Pad>
-    </Pads>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore />

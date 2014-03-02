@@ -111,6 +111,8 @@
     <BundleResource Include="images\JPY.jpg" />
     <BundleResource Include="images\NZD.jpg" />
     <BundleResource Include="images\USD.jpg" />
+    <BundleResource Include="images\DOG.jpg" />
+    <BundleResource Include="images\BTC.jpg" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Info.plist" />
@@ -159,7 +161,6 @@
   </ItemGroup>
   <ItemGroup>
     <XamarinComponentReference Include="btprogresshud">
-      <InstallationInProgress>True</InstallationInProgress>
       <Version>1.8</Version>
       <Visible>False</Visible>
     </XamarinComponentReference>

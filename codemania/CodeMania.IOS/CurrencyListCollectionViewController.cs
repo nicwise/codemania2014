@@ -118,10 +118,26 @@ namespace CodeMania.IOS
 			{
 				var header = collectionView.DequeueReusableSupplementaryView (UICollectionElementKindSection.Header, QuickCurrencyHeaderCell.Key, indexPath) as QuickCurrencyHeaderCell;
 				header.Setup (CurrentBaseCurrency, CurrentBaseCurrencyAmount);
+
+				UITapGestureRecognizer guesture = new UITapGestureRecognizer (() =>
+				{
+					HeaderTapped ();
+				}) {
+					NumberOfTapsRequired = 1
+
+				};
+
+				header.AddGestureRecognizer (guesture);
+
 				return header;
 			}
 
 			return null;
+		}
+
+		public void HeaderTapped()
+		{
+			PerformSegue ("AmountEditSegue", this);
 		}
 
 		public override void ItemSelected (UICollectionView collectionView, NSIndexPath indexPath)
@@ -137,6 +153,7 @@ namespace CodeMania.IOS
 			//"AmountEditSegue"
 
 		}
+
 	}
 }
 
