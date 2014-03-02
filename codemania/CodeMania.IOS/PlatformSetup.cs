@@ -19,11 +19,12 @@ namespace CodeMania.IOS
 		{
 			var sqliteFilename = "codemania.db3";
 			string documentsPath = Environment.GetFolderPath (Environment.SpecialFolder.Personal); // Documents folder
-			string libraryPath = Path.Combine (documentsPath, "..", "Library"); // Library folder
-			var path = Path.Combine(libraryPath, sqliteFilename);
+			var path = Path.Combine(documentsPath, sqliteFilename);
 
 			var plat = new SQLite.Net.Platform.XamarinIOS.SQLitePlatformIOS();
 			var conn = new SQLite.Net.SQLiteConnection(plat, path, true);
+
+			Console.WriteLine (path);
 
 			App.SetSqlConnection (conn);
 

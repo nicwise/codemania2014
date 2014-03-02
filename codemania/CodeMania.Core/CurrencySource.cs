@@ -24,6 +24,13 @@ namespace CodeMania.Core
 			var client = Container.Resolve<CurrencyClient> ();
 			var rates = await client.GetRates ();
 
+			if (rates == null)
+			{
+				Container.PublishAsync (new RefreshErrorMessage ("Latest rates not available"));
+				Log.Log ("No rates returned - internet down?");
+				return;
+			}
+
 			var database = Container.Resolve<CurrencyDatabase> ();
 			await database.UpdateRates (rates);
 
@@ -38,7 +45,6 @@ namespace CodeMania.Core
 			var usdRates = await database.GetRates ();
 
 			var baseRates = await RebaseRates (usdRates, baseCurrency);
-
 
 			Log.Log ("Currencies reloaded using " + baseCurrency + " as the base");
 			Container.PublishAsync (new CurrencyHasReloadedMessage (FilterRates (baseRates, baseCurrency, CurrencySet)));

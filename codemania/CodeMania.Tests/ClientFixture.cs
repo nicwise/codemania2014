@@ -2,6 +2,7 @@
 using NUnit.Framework;
 using CodeMania.Core.Client;
 using CodeMania.Core.Model;
+using BigTed.Core;
 
 
 namespace CodeMania.Tests
@@ -19,7 +20,7 @@ namespace CodeMania.Tests
 		[Test]
 		public async void ClientCanConnectAndGetResults() 
 		{
-			var client = new CurrencyClient ();
+			var client = new CurrencyClient (new Logger());
 
 			Currency res = await client.GetRates ();
 
@@ -32,7 +33,7 @@ namespace CodeMania.Tests
 		[Test]
 		public async void ClientCanConnectAndGetResultsWithNZD() 
 		{
-			var client = new CurrencyClient ();
+			var client = new CurrencyClient (new Logger());
 
 			Currency res = await client.GetRates ();
 
@@ -45,7 +46,7 @@ namespace CodeMania.Tests
 		[Test]
 		public async void ClientReturnsNullWithIncorrectUrl() 
 		{
-			var client = new CurrencyClient ();
+			var client = new CurrencyClient (new Logger());
 			CurrencyClient.ClientUrl = "http://whatever.com/{0}";
 
 			Currency res = await client.GetRates ();

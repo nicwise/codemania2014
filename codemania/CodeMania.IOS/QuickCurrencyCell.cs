@@ -20,7 +20,7 @@ namespace CodeMania.IOS
 		{
 			CurrencyNameLabel.Text = rate.Id;
 			ExchangeRateValueLabel.Text = string.Format ("{0:0.0000}", rate.Rate);
-			CurrencyValueLabel.Text = string.Format ("{0:0.00}", rate.Rate * baseAmount);
+			CurrencyValueLabel.Text = (rate.Rate * baseAmount).FormatCurrency (rate.Id);
 
 		}
 	}

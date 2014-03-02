@@ -18,6 +18,12 @@ namespace BigTed.Core
 		{
 			Log (string.Format (msg, p));
 		}
+
+		public void Log(Exception ex)
+		{
+			Log (ex.Message);
+			Log (ex.ToString ());
+		}
 	}
 }
 

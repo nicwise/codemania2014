@@ -96,6 +96,9 @@
     <Reference Include="SQLite.Net.Platform.XamarinIOS">
       <HintPath>..\packages\SQLite.Net.Platform.XamarinIOS.2.1.0\lib\monotouch\SQLite.Net.Platform.XamarinIOS.dll</HintPath>
     </Reference>
+    <Reference Include="BTProgressHUD">
+      <HintPath>..\Components\btprogresshud-1.8\lib\ios\BTProgressHUD.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <BundleResource Include="Resources\Default-568h%402x.png" />
@@ -129,6 +132,13 @@
     <Compile Include="QuickCurrencyHeaderCell.designer.cs">
       <DependentUpon>QuickCurrencyHeaderCell.cs</DependentUpon>
     </Compile>
+    <Compile Include="CurrencyListCollectionViewController.designer.cs">
+      <DependentUpon>CurrencyListCollectionViewController.cs</DependentUpon>
+    </Compile>
+    <Compile Include="AmountEditViewController.cs" />
+    <Compile Include="AmountEditViewController.designer.cs">
+      <DependentUpon>AmountEditViewController.cs</DependentUpon>
+    </Compile>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
@@ -146,5 +156,12 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="images\" />
+  </ItemGroup>
+  <ItemGroup>
+    <XamarinComponentReference Include="btprogresshud">
+      <InstallationInProgress>True</InstallationInProgress>
+      <Version>1.8</Version>
+      <Visible>False</Visible>
+    </XamarinComponentReference>
   </ItemGroup>
 </Project>

@@ -17,7 +17,7 @@ namespace CodeMania.IOS
 		public void Setup(string currencyName, float currencyAmount)
 		{
 			CurrencyNameLabel.Text = currencyName;
-			CurrencyValueLabel.Text = string.Format ("{0:0.00}", currencyAmount);
+			CurrencyValueLabel.Text = currencyAmount.FormatCurrency (currencyName);
 
 			var image = UIImage.FromFile (string.Format ("images/{0}.jpg", currencyName));
 			if (image != null)

@@ -7,42 +7,62 @@ using BigTed.Core;
 using CodeMania.Core;
 using TinyMessenger;
 using System.Diagnostics;
+using BigTed;
 
 namespace CodeMania.IOS
 {
 	[Register ("CurrencyListCollectionViewController")]
-	public class CurrencyListCollectionViewController : UICollectionViewController
+	public partial class CurrencyListCollectionViewController : UICollectionViewController
 	{
+		CurrencySource source;
+
 		public CurrencyListCollectionViewController (IntPtr handle) : base (handle)
 		{
+			source = Container.Resolve<CurrencySource> ();
+		}
+
+		partial void RefreshCurrency (MonoTouch.Foundation.NSObject sender)
+		{
+			source.RefreshFromSource ();
+			source.GetCurrencyForBase (CurrentBaseCurrency);
 		}
 
 
 
-		TinyMessageSubscriptionToken reloadToken, refreshToken;
+		TinyMessageSubscriptionToken reloadToken, refreshToken, errorToken;
 
-
-
-		public override void ViewDidLoad ()
+		void SetupMessages ()
 		{
-			base.ViewDidLoad ();
-
-			reloadToken = Container.Subscribe<CurrencyHasReloadedMessage> ((msg) =>
+			reloadToken = Container.Subscribe<CurrencyHasReloadedMessage> (msg =>
 			{
 				CurrentCurrencyList = msg.NewCurrency;
 				InvokeOnMainThread (() =>
 				{
 					CollectionView.ReloadData ();
-					CollectionView.ScrollToItem(NSIndexPath.FromItemSection(0,0), UICollectionViewScrollPosition.Top, true);
+					if (CurrentCurrencyList.Currencys.Count > 0)
+						CollectionView.ScrollToItem (NSIndexPath.FromItemSection (0, 0), UICollectionViewScrollPosition.Top, true);
 				});
 			});
-
-
-			refreshToken = Container.Subscribe<CurrencyRefreshMessage> ((msg) =>
+			refreshToken = Container.Subscribe<CurrencyRefreshMessage> (msg =>
 			{
-				var source = Container.Resolve<CurrencySource> ();
 				source.GetCurrencyForBase (CurrentBaseCurrency);
 			});
+
+			errorToken = Container.Subscribe<RefreshErrorMessage> (msg =>
+			{
+				InvokeOnMainThread (() =>
+				{
+					BTProgressHUD.ShowToast (msg.Message, false, 3000);
+				});
+			});
+		}
+
+		public override void ViewDidLoad ()
+		{
+			base.ViewDidLoad ();
+
+			SetupMessages ();
+			source.GetCurrencyForBase (CurrentBaseCurrency);
 
 		}
 
@@ -50,7 +70,6 @@ namespace CodeMania.IOS
 		{
 			base.ViewWillAppear (animated);
 
-			var source = Container.Resolve<CurrencySource> ();
 			source.GetCurrencyForBase (CurrentBaseCurrency);
 		}
 
@@ -113,8 +132,9 @@ namespace CodeMania.IOS
 			CurrentBaseCurrency = rate.Id;
 			CurrentBaseCurrencyAmount = 100f;
 
-			var source = Container.Resolve<CurrencySource> ();
 			source.GetCurrencyForBase (rate.Id);
+
+			//"AmountEditSegue"
 
 		}
 	}
