@@ -11,85 +11,105 @@ using BigTed;
 
 namespace CodeMania.IOS
 {
-	[Register ("CurrencyListCollectionViewController")]
+	[Register("CurrencyListCollectionViewController")]
 	public partial class CurrencyListCollectionViewController : UICollectionViewController
 	{
 		CurrencySource source;
+		const string AMOUNTEDITSEGUE = "AmountEditSegue";
 
-		public CurrencyListCollectionViewController (IntPtr handle) : base (handle)
+		public CurrencyListCollectionViewController(IntPtr handle) : base(handle)
 		{
-			source = Container.Resolve<CurrencySource> ();
+			source = Container.Resolve<CurrencySource>();
 		}
 
-		partial void RefreshCurrency (MonoTouch.Foundation.NSObject sender)
+		partial void RefreshCurrency(MonoTouch.Foundation.NSObject sender)
 		{
-			source.RefreshFromSource ();
-			source.GetCurrencyForBase (CurrentBaseCurrency);
+			source.RefreshFromSource();
+			source.GetCurrencyForBase(CurrentBaseCurrency);
 		}
 
+		partial void returned(UIStoryboardSegue segue)
+		{
+			AmountEditViewController sourceViewController = segue.SourceViewController as AmountEditViewController;
 
+			if (sourceViewController != null)
+			{
+				CurrentBaseCurrencyAmount = sourceViewController.Amount;
+			}
+		}
+
+		public override void PrepareForSegue(UIStoryboardSegue segue, NSObject sender)
+		{
+			if (segue.Identifier == AMOUNTEDITSEGUE)
+			{
+//				AmountEditViewController sourceViewController = segue.DestinationViewController as AmountEditViewController;
+//				if (sourceViewController != null)
+//					sourceViewController.Amount = CurrentBaseCurrencyAmount;
+			}
+		}
 
 		TinyMessageSubscriptionToken reloadToken, refreshToken, errorToken;
 
-		void SetupMessages ()
+		void SetupMessages()
 		{
-			reloadToken = Container.Subscribe<CurrencyHasReloadedMessage> (msg =>
+			reloadToken = Container.Subscribe<CurrencyHasReloadedMessage>(msg =>
 			{
 				CurrentCurrencyList = msg.NewCurrency;
-				InvokeOnMainThread (() =>
+				InvokeOnMainThread(() =>
 				{
-					CollectionView.ReloadData ();
+					CollectionView.ReloadData();
 					if (CurrentCurrencyList.Currencys.Count > 0)
-						CollectionView.ScrollToItem (NSIndexPath.FromItemSection (0, 0), UICollectionViewScrollPosition.Top, true);
+						CollectionView.ScrollToItem(NSIndexPath.FromItemSection(0, 0), UICollectionViewScrollPosition.Top, true);
 				});
 			});
-			refreshToken = Container.Subscribe<CurrencyRefreshMessage> (msg =>
+			refreshToken = Container.Subscribe<CurrencyRefreshMessage>(msg =>
 			{
-				source.GetCurrencyForBase (CurrentBaseCurrency);
+				source.GetCurrencyForBase(CurrentBaseCurrency);
 			});
 
-			errorToken = Container.Subscribe<RefreshErrorMessage> (msg =>
+			errorToken = Container.Subscribe<RefreshErrorMessage>(msg =>
 			{
-				InvokeOnMainThread (() =>
+				InvokeOnMainThread(() =>
 				{
-					BTProgressHUD.ShowToast (msg.Message, false, 3000);
+					BTProgressHUD.ShowToast(msg.Message, false, 3000);
 				});
 			});
 		}
 
-		public override void ViewDidLoad ()
+		public override void ViewDidLoad()
 		{
-			base.ViewDidLoad ();
+			base.ViewDidLoad();
 
-			SetupMessages ();
-			source.GetCurrencyForBase (CurrentBaseCurrency);
+			SetupMessages();
+			source.GetCurrencyForBase(CurrentBaseCurrency);
 
 		}
 
-		public override void ViewWillAppear (bool animated)
+		public override void ViewWillAppear(bool animated)
 		{
-			base.ViewWillAppear (animated);
+			base.ViewWillAppear(animated);
 
-			source.GetCurrencyForBase (CurrentBaseCurrency);
+			source.GetCurrencyForBase(CurrentBaseCurrency);
 		}
 
 		Currency CurrentCurrencyList = null;
 		string CurrentBaseCurrency = "USD";
 		float CurrentBaseCurrencyAmount = 100f;
 
-		public override int NumberOfSections (UICollectionView collectionView)
+		public override int NumberOfSections(UICollectionView collectionView)
 		{
 			if (CurrentCurrencyList == null)
 			{
 				return 0;
-			} else
+			}
+			else
 			{
 				return 1;
 			}
 
 		}
 
-		public override int GetItemsCount (UICollectionView collectionView, int section)
+		public override int GetItemsCount(UICollectionView collectionView, int section)
 		{
 			if (CurrentCurrencyList == null)
 			{
@@ -99,35 +119,36 @@ namespace CodeMania.IOS
 			return CurrentCurrencyList.Currencys.Count;
 		}
 
-		public override UICollectionViewCell GetCell (UICollectionView collectionView, NSIndexPath indexPath)
+		public override UICollectionViewCell GetCell(UICollectionView collectionView, NSIndexPath indexPath)
 		{
 
 
-			var cell = collectionView.DequeueReusableCell (QuickCurrencyCell.Key, indexPath) as QuickCurrencyCell;
+			var cell = collectionView.DequeueReusableCell(QuickCurrencyCell.Key, indexPath) as QuickCurrencyCell;
 
-			var rate = CurrentCurrencyList.Currencys [indexPath.Row];
+			var rate = CurrentCurrencyList.Currencys[indexPath.Row];
 
-			cell.Setup (rate, CurrentBaseCurrencyAmount);
+			cell.Setup(rate, CurrentBaseCurrencyAmount);
 			return cell;
 
 		}
 
-		public override UICollectionReusableView GetViewForSupplementaryElement (UICollectionView collectionView, NSString elementKind, NSIndexPath indexPath)
+		public override UICollectionReusableView GetViewForSupplementaryElement(UICollectionView collectionView, NSString elementKind, NSIndexPath indexPath)
 		{
 			if (elementKind == UICollectionElementKindSectionKey.Header)
 			{
-				var header = collectionView.DequeueReusableSupplementaryView (UICollectionElementKindSection.Header, QuickCurrencyHeaderCell.Key, indexPath) as QuickCurrencyHeaderCell;
-				header.Setup (CurrentBaseCurrency, CurrentBaseCurrencyAmount);
+				var header = collectionView.DequeueReusableSupplementaryView(UICollectionElementKindSection.Header, QuickCurrencyHeaderCell.Key, indexPath) as QuickCurrencyHeaderCell;
+				header.Setup(CurrentBaseCurrency, CurrentBaseCurrencyAmount);
 
-				UITapGestureRecognizer guesture = new UITapGestureRecognizer (() =>
+				UITapGestureRecognizer guesture = new UITapGestureRecognizer(() =>
 				{
-					HeaderTapped ();
-				}) {
+					HeaderTapped();
+				})
+				{
 					NumberOfTapsRequired = 1
 
 				};
 
-				header.AddGestureRecognizer (guesture);
+				header.AddGestureRecognizer(guesture);
 
 				return header;
 			}
@@ -137,23 +158,22 @@ namespace CodeMania.IOS
 
 		public void HeaderTapped()
 		{
-			PerformSegue ("AmountEditSegue", this);
+			PerformSegue(AMOUNTEDITSEGUE, this);
 		}
 
-		public override void ItemSelected (UICollectionView collectionView, NSIndexPath indexPath)
+		public override void ItemSelected(UICollectionView collectionView, NSIndexPath indexPath)
 		{
 
-			var rate = CurrentCurrencyList.Currencys [indexPath.Row];
+			var rate = CurrentCurrencyList.Currencys[indexPath.Row];
 
 			CurrentBaseCurrency = rate.Id;
 			CurrentBaseCurrencyAmount = 100f;
 
-			source.GetCurrencyForBase (rate.Id);
+			source.GetCurrencyForBase(rate.Id);
 
 			//"AmountEditSegue"
 
 		}
-
 	}
 }
 

@@ -12,11 +12,18 @@ namespace CodeMania.IOS
 	[Register ("AmountEditViewController")]
 	partial class AmountEditViewController
 	{
+		[Outlet]
+		MonoTouch.UIKit.UITextField AmountTextField { get; set; }
+
 		[Action ("DonePressed:")]
 		partial void DonePressed (MonoTouch.Foundation.NSObject sender);
 		
 		void ReleaseDesignerOutlets ()
 		{
+			if (AmountTextField != null) {
+				AmountTextField.Dispose ();
+				AmountTextField = null;
+			}
 		}
 	}
 }

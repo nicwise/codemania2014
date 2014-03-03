@@ -13,6 +13,9 @@ namespace CodeMania.IOS
 	{
 		[Action ("RefreshCurrency:")]
 		partial void RefreshCurrency (MonoTouch.Foundation.NSObject sender);
+
+		[Action ("returned:")]
+		partial void returned (MonoTouch.UIKit.UIStoryboardSegue segue);
 		
 		void ReleaseDesignerOutlets ()
 		{
