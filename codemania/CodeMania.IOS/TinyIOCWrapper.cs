@@ -7,10 +7,10 @@ namespace CodeMania.IOS
 {
 	public class TinyIoCWrapper : IContainer
 	{
-		public static void Init ()
+		public static void Init()
 		{
-			BigTed.Core.Container.ContainerSource = new TinyIoCWrapper ();
-			Container.Register<ITinyMessengerHub, TinyMessengerHub> ();
+			BigTed.Core.Container.ContainerSource = new TinyIoCWrapper();
+			Container.Register<ITinyMessengerHub, TinyMessengerHub>();
 		}
 
 		public static TinyIoCContainer Container
@@ -25,43 +25,53 @@ namespace CodeMania.IOS
 		{
 			get
 			{
-				return Container.Resolve<ITinyMessengerHub> ();
+				return Container.Resolve<ITinyMessengerHub>();
 			}
 		}
 
-		public void Register<T> () where T : class
+		public void Register<T>() where T : class
 		{
-			Container.Register<T> ().AsMultiInstance();
+			Container.Register<T>().AsMultiInstance();
 		}
 
-		public void RegisterSingleton<T>() where T : class 
+		public void Register<TIntf, TImpl>() where TIntf : class where TImpl : class, TIntf
 		{
-			Container.Register<T> ().AsSingleton ();
+			Container.Register<TIntf, TImpl>().AsMultiInstance();
 		}
 
-		public T Resolve<T> () where T : class
+		public void RegisterSingleton<T>() where T : class
 		{
-			return Container.Resolve<T> ();
+			Container.Register<T>().AsSingleton();
 		}
 
-		public TinyMessageSubscriptionToken Subscribe<TMessage> (Action<TMessage> deliveryAction) where TMessage : class, ITinyMessage
+		public void RegisterSingleton<TIntf, TImpl>() where TIntf : class where TImpl : class, TIntf
 		{
-			return Hub.Subscribe<TMessage> (deliveryAction);
+			Container.Register<TIntf, TImpl>().AsSingleton();
 		}
 
-		public void Unsubscribe<TMessage> (TinyMessageSubscriptionToken subscriptionToken) where TMessage : class, ITinyMessage
+		public T Resolve<T>() where T : class
 		{
-			Hub.Unsubscribe<TMessage> (subscriptionToken);
+			return Container.Resolve<T>();
 		}
 
-		public void Publish<TMessage> (TMessage message) where TMessage : class, ITinyMessage
+		public TinyMessageSubscriptionToken Subscribe<TMessage>(Action<TMessage> deliveryAction) where TMessage : class, ITinyMessage
 		{
-			Hub.Publish (message);
+			return Hub.Subscribe<TMessage>(deliveryAction);
 		}
 
-		public void PublishAsync<TMessage> (TMessage message) where TMessage : class, ITinyMessage
+		public void Unsubscribe<TMessage>(TinyMessageSubscriptionToken subscriptionToken) where TMessage : class, ITinyMessage
 		{
-			Hub.PublishAsync (message);
+			Hub.Unsubscribe<TMessage>(subscriptionToken);
+		}
+
+		public void Publish<TMessage>(TMessage message) where TMessage : class, ITinyMessage
+		{
+			Hub.Publish(message);
+		}
+
+		public void PublishAsync<TMessage>(TMessage message) where TMessage : class, ITinyMessage
+		{
+			Hub.PublishAsync(message);
 		}
 	}
 }

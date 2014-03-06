@@ -16,7 +16,7 @@ namespace CodeMania.Android
 	[Activity(Label = "Quick Currency", MainLauncher = true)]
 	public class MainActivity : Activity
 	{
-		CurrencySource source;
+		ICurrencySource source;
 		string CurrentBaseCurrency = "USD";
 		float CurrentCurrencyValue = 100f;
 		Currency CurrentCurrencyList;
@@ -35,7 +35,7 @@ namespace CodeMania.Android
 			SetContentView(Resource.Layout.Main);
 
 
-			source = Container.Resolve<WellingtonCurrencySource>();
+			source = Container.Resolve<ICurrencySource>();
 			source.RefreshFromSource();
 
 			SetupMessages();

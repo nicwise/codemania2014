@@ -14,15 +14,15 @@ namespace CodeMania.IOS
 	[Register("CurrencyListCollectionViewController")]
 	public partial class CurrencyListCollectionViewController : UICollectionViewController
 	{
-		CurrencySource source;
+		ICurrencySource source;
 		const string AMOUNTEDITSEGUE = "AmountEditSegue";
 
 		public CurrencyListCollectionViewController(IntPtr handle) : base(handle)
 		{
-			source = Container.Resolve<CurrencySource>();
+			source = Container.Resolve<ICurrencySource>();
 		}
 
-		partial void RefreshCurrency(MonoTouch.Foundation.NSObject sender)
+		partial void RefreshCurrency(NSObject sender)
 		{
 			source.RefreshFromSource();
 			source.GetCurrencyForBase(CurrentBaseCurrency);

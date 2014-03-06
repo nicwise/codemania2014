@@ -8,7 +8,16 @@ using System.Threading.Tasks;
 
 namespace CodeMania.Core
 {
-	public class CurrencySource
+	public interface ICurrencySource
+	{
+		string[] CurrencySet { get; set; }
+
+		void RefreshFromSource();
+
+		void GetCurrencyForBase(string baseCurrency);
+	}
+
+	public class CurrencySource : ICurrencySource
 	{
 		public CurrencySource()
 		{
@@ -19,7 +28,7 @@ namespace CodeMania.Core
 
 		public virtual async void RefreshFromSource()
 		{
-			var client = Container.Resolve<CurrencyClient>();
+			var client = Container.Resolve<ICurrencyClient>();
 			var rates = await client.GetRates();
 			var dogeRate = await client.GetDoge();
 
@@ -32,7 +41,7 @@ namespace CodeMania.Core
 
 			rates.Currencys.Add(dogeRate);
 
-			var database = Container.Resolve<CurrencyDatabase>();
+			var database = Container.Resolve<ICurrencyDatabase>();
 			await database.UpdateRates(rates);
 
 
@@ -42,7 +51,7 @@ namespace CodeMania.Core
 		public async void GetCurrencyForBase(string baseCurrency)
 		{
 
-			var database = Container.Resolve<CurrencyDatabase>();
+			var database = Container.Resolve<ICurrencyDatabase>();
 			var usdRates = await database.GetRates();
 
 			var baseRates = await RebaseRates(usdRates, baseCurrency);
@@ -52,7 +61,7 @@ namespace CodeMania.Core
 
 		}
 
-		public Currency FilterRates(Currency source, string baseCurrency, params string[] validCurrency)
+		Currency FilterRates(Currency source, string baseCurrency, params string[] validCurrency)
 		{
 			return new Currency()
 			{
@@ -65,7 +74,7 @@ namespace CodeMania.Core
 
 		}
 
-		public async Task<Currency> RebaseRates(Currency usdRates, string baseCurrency)
+		async Task<Currency> RebaseRates(Currency usdRates, string baseCurrency)
 		{
 			var currency = new Currency
 			{

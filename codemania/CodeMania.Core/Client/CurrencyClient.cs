@@ -9,34 +9,40 @@ using System.Collections.Generic;
 
 namespace CodeMania.Core.Client
 {
-	public class CurrencyClient
+	public interface ICurrencyClient
+	{
+		Task<Currency> GetRates();
+
+		Task<CurrencyRate> GetDoge();
+	}
+
+	public class CurrencyClient : ICurrencyClient
 	{
 		public static string ClientUrl { get; set; }
-		public Logger Log { get; set; }
 
-		public CurrencyClient (Logger log)
+		public CurrencyClient()
 		{
-			if (string.IsNullOrEmpty (ClientUrl))
+			if (string.IsNullOrEmpty(ClientUrl))
 				ClientUrl = "http://localhost:3000/codemania/rates?baseCurrency={0}";
 
-			Log = log;
 		}
 
-		public async Task<Currency> GetRates ()
+		public async Task<Currency> GetRates()
 		{
 			try
 			{
-				var httpClient = new HttpClient ();
-				HttpResponseMessage response = await httpClient.GetAsync (string.Format (ClientUrl, "USD"));
+				var httpClient = new HttpClient();
+				HttpResponseMessage response = await httpClient.GetAsync(string.Format(ClientUrl, "USD"));
 				if (response.IsSuccessStatusCode)
 				{
-					var res = await response.Content.ReadAsStringAsync ();
-					return JsonConvert.DeserializeObject<Currency> (res);
+					var res = await response.Content.ReadAsStringAsync();
+					return JsonConvert.DeserializeObject<Currency>(res);
 
 				}
-			} catch (Exception ex)
+			}
+			catch (Exception ex)
 			{
-				Log.Log (ex);
+				Debug.WriteLine(ex.ToString());
 			}
 			return null;
 		}
@@ -46,31 +52,33 @@ namespace CodeMania.Core.Client
 
 			try
 			{
-				var httpClient = new HttpClient ();
-				HttpResponseMessage response = await httpClient.GetAsync ("https://www.dogeapi.com/wow/?a=get_current_price");
+				var httpClient = new HttpClient();
+				HttpResponseMessage response = await httpClient.GetAsync("https://www.dogeapi.com/wow/?a=get_current_price");
 				if (response.IsSuccessStatusCode)
 				{
-					var res = await response.Content.ReadAsStringAsync ();
-					return new CurrencyRate {
+					var res = await response.Content.ReadAsStringAsync();
+					return new CurrencyRate
+					{
 						Id = "DOG",
-						Rate = 1/float.Parse (res)
+						Rate = 1 / float.Parse(res)
 					};
 
 				}
 
 
-			} catch (Exception ex)
+			}
+			catch (Exception ex)
 			{
-				Log.Log (ex);
+				Debug.WriteLine(ex.ToString());
 
 			}
 
-			return new CurrencyRate {
+			return new CurrencyRate
+			{
 				Id = "DOG",
 				Rate = 1000.0f
 			};
 		}
-
 	}
 }
 

@@ -7,7 +7,11 @@ namespace BigTed.Core
 	{
 		void Register<T>() where T : class;
 
+		void Register<TIntf, TImpl>()  where TIntf : class where TImpl : class, TIntf;
+
 		void RegisterSingleton<T>() where T : class;
+
+		void RegisterSingleton<TIntf, TImpl>()  where TIntf : class where TImpl : class, TIntf;
 
 		T Resolve<T>() where T : class;
 

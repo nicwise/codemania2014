@@ -12,9 +12,19 @@ namespace BigTed.Core
 			ContainerSource.Register<T>();
 		}
 
+		public static void Register<TIntf, TImpl>()  where TIntf : class where TImpl : class, TIntf
+		{
+			ContainerSource.Register<TIntf, TImpl>();
+		}
+
 		public static void RegisterSingleton<T>() where T : class
 		{
 			ContainerSource.RegisterSingleton<T>();
+		}
+
+		public static void RegisterSingleton<TIntf, TImpl>()  where TIntf : class where TImpl : class, TIntf
+		{
+			ContainerSource.RegisterSingleton<TIntf, TImpl>();
 		}
 
 		public static T Resolve<T>() where T : class

@@ -2,6 +2,7 @@
 using BigTed.Core;
 using TinyIoC;
 using TinyMessenger;
+using Android.Transitions;
 
 namespace CodeMania.Android
 {
@@ -34,9 +35,19 @@ namespace CodeMania.Android
 			Container.Register<T>().AsMultiInstance();
 		}
 
+		public void Register<TIntf, TImpl>() where TIntf : class where TImpl : class, TIntf
+		{
+			Container.Register<TIntf, TImpl>().AsMultiInstance();
+		}
+
 		public void RegisterSingleton<T>() where T : class
 		{
 			Container.Register<T>().AsSingleton();
+		}
+
+		public void RegisterSingleton<TIntf, TImpl>() where TIntf : class where TImpl : class, TIntf
+		{
+			Container.Register<TIntf, TImpl>().AsSingleton();
 		}
 
 		public T Resolve<T>() where T : class

@@ -11,7 +11,7 @@ namespace CodeMania.IOS
 	// The UIApplicationDelegate for the application. This class is responsible for launching the
 	// User Interface of the application, as well as listening (and optionally responding) to
 	// application events from iOS.
-	[Register ("AppDelegate")]
+	[Register("AppDelegate")]
 	public partial class AppDelegate : UIApplicationDelegate
 	{
 		public override UIWindow Window
@@ -19,17 +19,18 @@ namespace CodeMania.IOS
 			get;
 			set;
 		}
-		public override bool FinishedLaunching (UIApplication app, NSDictionary options)
+
+		public override bool FinishedLaunching(UIApplication app, NSDictionary options)
 		{
 			//spin up the ioc
 
-			PlatformSetup.Setup ();
-			App.Setup ();
+			PlatformSetup.Setup();
+			App.Setup();
 
-			PlatformSetup.SetupDatabase ();
+			PlatformSetup.SetupDatabase();
 
-			var source = Container.Resolve<CurrencySource> ();
-			source.RefreshFromSource ();
+			var source = Container.Resolve<ICurrencySource>();
+			source.RefreshFromSource();
 
 			return true;
 		}

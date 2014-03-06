@@ -7,7 +7,18 @@ using System.Collections.Generic;
 
 namespace CodeMania.Core
 {
-	public class CurrencyDatabase
+	public interface ICurrencyDatabase
+	{
+		SQLiteConnection Connection { get; set; }
+
+		void RegisterTables();
+
+		Task<Currency> GetRates();
+
+		Task UpdateRates(Currency newRates);
+	}
+
+	public class CurrencyDatabase : ICurrencyDatabase
 	{
 		public CurrencyDatabase()
 		{

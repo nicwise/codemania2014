@@ -42,7 +42,7 @@ namespace CodeMania.Core
 				Rate = 565f
 			});
 
-			var database = Container.Resolve<CurrencyDatabase>();
+			var database = Container.Resolve<ICurrencyDatabase>();
 			await database.UpdateRates(rates);
 
 
