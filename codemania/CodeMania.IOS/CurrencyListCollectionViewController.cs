@@ -42,9 +42,7 @@ namespace CodeMania.IOS
 		{
 			if (segue.Identifier == AMOUNTEDITSEGUE)
 			{
-//				AmountEditViewController sourceViewController = segue.DestinationViewController as AmountEditViewController;
-//				if (sourceViewController != null)
-//					sourceViewController.Amount = CurrentBaseCurrencyAmount;
+				//could load stuff into the target segue
 			}
 		}
 

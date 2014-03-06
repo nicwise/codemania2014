@@ -5,31 +5,99 @@ using Android.Runtime;
 using Android.Views;
 using Android.Widget;
 using Android.OS;
+using CodeMania.Core;
+using BigTed.Core;
+using Android.Text.Style;
+using TinyMessenger;
+using CodeMania.Core.Model;
 
 namespace CodeMania.Android
 {
-	[Activity (Label = "CodeMania.Android", MainLauncher = true)]
+	[Activity(Label = "Quick Currency", MainLauncher = true)]
 	public class MainActivity : Activity
 	{
-		int count = 1;
+		CurrencySource source;
+		string CurrentBaseCurrency = "USD";
+		float CurrentCurrencyValue = 100f;
+		Currency CurrentCurrencyList;
 
-		protected override void OnCreate (Bundle bundle)
+		protected override void OnCreate(Bundle bundle)
 		{
-			base.OnCreate (bundle);
+			base.OnCreate(bundle);
 
-			TinyIoCWrapper.Init ();
+
+			PlatformSetup.Setup();
+			App.Setup();
+
+			PlatformSetup.SetupDatabase();
 
 			// Set our view from the "main" layout resource
-			SetContentView (Resource.Layout.Main);
+			SetContentView(Resource.Layout.Main);
 
-			// Get our button from the layout resource,
-			// and attach an event to it
-			Button button = FindViewById<Button> (Resource.Id.myButton);
-			
-			button.Click += delegate
+
+			source = Container.Resolve<WellingtonCurrencySource>();
+			source.RefreshFromSource();
+
+			SetupMessages();
+
+		}
+
+		protected override void OnDestroy()
+		{
+			base.OnDestroy();
+
+			Container.Unsubscribe<CurrencyHasReloadedMessage>(reloadToken);
+			Container.Unsubscribe<CurrencyRefreshMessage>(refreshToken);
+			Container.Unsubscribe<RefreshErrorMessage>(errorToken);
+		}
+
+		TinyMessageSubscriptionToken reloadToken, refreshToken, errorToken;
+
+		void SetupMessages()
+		{
+			reloadToken = Container.Subscribe<CurrencyHasReloadedMessage>(msg =>
 			{
-				button.Text = string.Format ("{0} clicks!", count++);
-			};
+				CurrentCurrencyList = msg.NewCurrency;
+
+				RunOnUiThread(() =>
+				{
+					foreach (var rate in CurrentCurrencyList.Currencys)
+					{
+						Console.WriteLine(rate.Id + " " + rate.Rate);
+					}
+				});
+			});
+			refreshToken = Container.Subscribe<CurrencyRefreshMessage>(msg =>
+			{
+				source.GetCurrencyForBase(CurrentBaseCurrency);
+			});
+
+			errorToken = Container.Subscribe<RefreshErrorMessage>(msg =>
+			{
+				RunOnUiThread(() =>
+				{
+					Toast.MakeText(this, msg.Message, ToastLength.Short).Show();
+				});
+			});
+		}
+
+		public override bool OnCreateOptionsMenu(IMenu menu)
+		{
+			MenuInflater.Inflate(Resource.Menu.main_activity_actions, menu);
+			return base.OnCreateOptionsMenu(menu);
+		}
+
+		public override bool OnOptionsItemSelected(IMenuItem item)
+		{
+			switch (item.ItemId)
+			{
+				case Resource.Id.action_refresh:
+					source.RefreshFromSource();
+					source.GetCurrencyForBase(CurrentBaseCurrency);
+					return true;
+				default:
+					return base.OnOptionsItemSelected(item);
+			}
 		}
 	}
 }

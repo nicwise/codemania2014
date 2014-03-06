@@ -1,21 +1,23 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.IPhone.IPhoneSimulatorTarget.IPhoneRetina.7.0" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="CodeMania.IOS/CurrencyListCollectionViewController.cs">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="CodeMania.Core/App.cs">
     <Files>
-      <File FileName="CodeMania.Core/CurrencySource.cs" Line="1" Column="1" />
+      <File FileName="CodeMania.Android/MainActivity.cs" Line="1" Column="1" />
+      <File FileName="CodeMania.Android/Resources/menu/main_activity_actions.xml" Line="1" Column="1" />
       <File FileName="CodeMania.IOS/AppDelegate.cs" Line="1" Column="1" />
-      <File FileName="CodeMania.Core/Messages.cs" Line="1" Column="1" />
-      <File FileName="CodeMania.Core/Client/CurrencyClient.cs" Line="1" Column="1" />
+      <File FileName="CodeMania.Core/WellingtonCurrencySource.cs" Line="13" Column="3" />
+      <File FileName="CodeMania.Core/App.cs" Line="17" Column="1" />
       <File FileName="CodeMania.Core/CurrencyDatabase.cs" Line="1" Column="1" />
-      <File FileName="CodeMania.IOS/CurrencyListCollectionViewController.cs" Line="49" Column="4" />
-      <File FileName="CodeMania.Core/App.cs" Line="1" Column="1" />
-      <File FileName="CodeMania.Core/ExtensionMethods.cs" Line="1" Column="1" />
-      <File FileName="CodeMania.IOS/CurrencyListCollectionViewController.designer.cs" Line="1" Column="1" />
-      <File FileName="CodeMania.IOS/PlatformSetup.cs" Line="15" Column="52" />
+      <File FileName="BigTed.Core/IContainer.cs" Line="1" Column="1" />
+      <File FileName="CodeMania.Core/CurrencySource.cs" Line="50" Column="4" />
+      <File FileName="CodeMania.Android/PlatformSetup.cs" Line="18" Column="37" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
-    <BreakpointStore />
+    <BreakpointStore>
+      <Breakpoint file="/Users/nic/code/git/codemania/codemania/CodeMania.Core/App.cs" line="17" column="1" />
+    </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MonoDevelop.Ide.ItemProperties.Targets.CodeMania.Android MonoForAntroid.PreferredDevice="Nexus 7" AndroidDeviceId-Debug="007160780aa675bd" />
 </Properties>

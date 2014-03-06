@@ -10,81 +10,81 @@ namespace CodeMania.Core
 {
 	public class CurrencySource
 	{
-		public Logger Log { get; set; }
-
-		public CurrencySource (Logger log)
+		public CurrencySource()
 		{
-			Log = log;
+
 		}
 
 		public string[] CurrencySet { get; set; }
 
-		public async void RefreshFromSource ()
+		public virtual async void RefreshFromSource()
 		{
-			var client = Container.Resolve<CurrencyClient> ();
-			var rates = await client.GetRates ();
-			var dogeRate = await client.GetDoge ();
+			var client = Container.Resolve<CurrencyClient>();
+			var rates = await client.GetRates();
+			var dogeRate = await client.GetDoge();
 
 			if (rates == null)
 			{
-				Container.PublishAsync (new RefreshErrorMessage ("Latest rates not available"));
-				Log.Log ("No rates returned - internet down?");
+				Container.PublishAsync(new RefreshErrorMessage("Latest rates not available"));
+
 				return;
 			}
 
-			rates.Currencys.Add (dogeRate);
+			rates.Currencys.Add(dogeRate);
 
-			var database = Container.Resolve<CurrencyDatabase> ();
-			await database.UpdateRates (rates);
+			var database = Container.Resolve<CurrencyDatabase>();
+			await database.UpdateRates(rates);
 
-			Log.Log ("Publishing a refresh");
-			Container.PublishAsync (new CurrencyRefreshMessage ());
+
+			Container.PublishAsync(new CurrencyRefreshMessage());
 		}
 
-		public async void GetCurrencyForBase (string baseCurrency)
+		public async void GetCurrencyForBase(string baseCurrency)
 		{
 
-			var database = Container.Resolve<CurrencyDatabase> ();
-			var usdRates = await database.GetRates ();
+			var database = Container.Resolve<CurrencyDatabase>();
+			var usdRates = await database.GetRates();
 
-			var baseRates = await RebaseRates (usdRates, baseCurrency);
+			var baseRates = await RebaseRates(usdRates, baseCurrency);
 
-			Log.Log ("Currencies reloaded using " + baseCurrency + " as the base");
-			Container.PublishAsync (new CurrencyHasReloadedMessage (FilterRates (baseRates, baseCurrency, CurrencySet)));
+
+			Container.PublishAsync(new CurrencyHasReloadedMessage(FilterRates(baseRates, baseCurrency, CurrencySet)));
 
 		}
 
-		public Currency FilterRates (Currency source, string baseCurrency, params string[] validCurrency)
+		public Currency FilterRates(Currency source, string baseCurrency, params string[] validCurrency)
 		{
-			return new Currency () {
+			return new Currency()
+			{
 				BaseCurrency = source.BaseCurrency,
 				Currencys = (from x in source.Currencys
-				             where validCurrency.Contains (x.Id) && x.Id != baseCurrency
+				             where validCurrency.Contains(x.Id) && x.Id != baseCurrency
 				             orderby x.Id
-				             select x).ToList ()
+				             select x).ToList()
 			};
 
 		}
 
-		public async Task<Currency> RebaseRates (Currency usdRates, string baseCurrency)
+		public async Task<Currency> RebaseRates(Currency usdRates, string baseCurrency)
 		{
-			var currency = new Currency {
+			var currency = new Currency
+			{
 				BaseCurrency = baseCurrency
 			};
 
 			currency.Currencys = (from rate in usdRates.Currencys
-			                      select new CurrencyRate { Id = rate.Id, Rate = RebaseSingleCurrency (usdRates, baseCurrency, rate.Id) }).ToList ();
+			                      select new CurrencyRate { Id = rate.Id, Rate = RebaseSingleCurrency(usdRates, baseCurrency, rate.Id) }).ToList();
 
 			return currency;
 		}
 
-		float RebaseSingleCurrency (Currency usdRates, string source, string dest)
+		float RebaseSingleCurrency(Currency usdRates, string source, string dest)
 		{
 			if (source == dest)
 				return 1;
 
-			var sourceRate = usdRates.Currencys.FirstOrDefault (x => x.Id == source);
-			var destRate = usdRates.Currencys.FirstOrDefault (x => x.Id == dest);
+			var sourceRate = usdRates.Currencys.FirstOrDefault(x => x.Id == source);
+			var destRate = usdRates.Currencys.FirstOrDefault(x => x.Id == dest);
 
 
 			//from USD to something
@@ -111,7 +111,8 @@ namespace CodeMania.Core
 			{
 				var sourceInBase = 1.0f / sourceRate.Rate;
 				return sourceInBase * destRate.Rate;
-			} else
+			}
+			else
 			{
 				return -1;
 			}

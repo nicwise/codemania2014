@@ -7,38 +7,37 @@ namespace CodeMania.Core
 {
 	public static class App
 	{
-		public static void Setup() 
+		public static void Setup()
 		{
-			Container.RegisterSingleton<CurrencyClient> ();
-			Container.RegisterSingleton<CurrencySource> ();
-			Container.RegisterSingleton<CurrencyDatabase> ();
-			Container.RegisterSingleton<Logger> ();
+			Container.RegisterSingleton<CurrencyClient>();
+			Container.RegisterSingleton<CurrencySource>();
+			Container.RegisterSingleton<CurrencyDatabase>();
+			Container.RegisterSingleton<Logger>();
 
-			var source = Container.Resolve<CurrencySource> ();
-			source.CurrencySet = new [] {
+			var source = Container.Resolve<CurrencySource>();
+			source.CurrencySet = new []
+			{
 				"USD", "NZD", "GBP", "JPY", "EUR", "AUD", "SKK", "INR", "CAD", "CHF", "DOG", "BTC"
 			};
-
 		}
 
 		static SQLiteConnection conn = null;
 
-		public static void SetSqlConnection(SQLiteConnection newConnection) 
+		public static void SetSqlConnection(SQLiteConnection newConnection)
 		{
 			conn = newConnection;
-			var db = Container.Resolve<CurrencyDatabase> ();
+			var db = Container.Resolve<CurrencyDatabase>();
 			db.Connection = conn;
-			db.RegisterTables ();
+			db.RegisterTables();
 		}
 
-		public static CurrencyDatabase Database 
+		public static CurrencyDatabase Database
 		{
-			get 
+			get
 			{
-				return Container.Resolve<CurrencyDatabase> ();
+				return Container.Resolve<CurrencyDatabase>();
 			}
 		}
-
 	}
 }
 
