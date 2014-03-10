@@ -87,6 +87,7 @@
     <AndroidResource Include="Resources\drawable\JPY.jpg" />
     <AndroidResource Include="Resources\drawable\NZD.jpg" />
     <AndroidResource Include="Resources\drawable\USD.jpg" />
+    <AndroidResource Include="Resources\layout\NewCurrencyDialog.axml" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Novell\Novell.MonoDroid.CSharp.targets" />
   <ItemGroup>

@@ -11,6 +11,7 @@ using Android.Text.Style;
 using TinyMessenger;
 using CodeMania.Core.Model;
 using Android;
+using Java.Lang;
 
 namespace CodeMania.Android
 {
@@ -64,9 +65,7 @@ namespace CodeMania.Android
 				var adapter = (currencyListView.Adapter as CurrencyListAdapter);
 				if (e.Position == 0)
 				{
-					CurrentCurrencyValue += 100f;
-					adapter.BaseCurrencyAmount = CurrentCurrencyValue;
-
+					SelectNewCurrencyAmount();
 				}
 				else
 				{
@@ -74,6 +73,42 @@ namespace CodeMania.Android
 					source.GetCurrencyForBase(newCurrency);
 				}
 			};
+		}
+
+		void SelectNewCurrencyAmount()
+		{
+			var inflator = (LayoutInflater)this.GetSystemService(Context.LayoutInflaterService);
+
+
+			AlertDialog.Builder builder = new AlertDialog.Builder(this);
+			builder.SetTitle("New Currency Amount");
+			builder.SetView(inflator.Inflate(Resource.Layout.NewCurrencyDialog, null));
+			builder.SetPositiveButton("OK", (object sender, DialogClickEventArgs e) =>
+			{
+				var d = (AlertDialog)sender;
+
+				var textbox = (EditText)d.FindViewById(Resource.Id.newCurrencyAmount);
+
+				string val = textbox.Text;
+
+				float floatVal = 0;
+				if (float.TryParse(val, out floatVal))
+				{
+					var adapter = (currencyListView.Adapter as CurrencyListAdapter);
+					CurrentCurrencyValue = floatVal;
+					adapter.BaseCurrencyAmount = floatVal;
+				}
+			});
+			builder.SetNegativeButton("Cancel", (object sender, DialogClickEventArgs e) =>
+			{
+
+			});
+
+
+			AlertDialog dialog = builder.Create();
+
+			dialog.Show();
+
 		}
 
 		TinyMessageSubscriptionToken reloadToken, refreshToken, errorToken;

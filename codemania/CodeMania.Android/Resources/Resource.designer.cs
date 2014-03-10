@@ -98,8 +98,8 @@ namespace CodeMania.Android
 		public partial class Id
 		{
 			
-			// aapt resource value: 0x7f060007
-			public const int action_refresh = 2131099655;
+			// aapt resource value: 0x7f060008
+			public const int action_refresh = 2131099656;
 			
 			// aapt resource value: 0x7f060004
 			public const int backgroundLayout = 2131099652;
@@ -118,6 +118,9 @@ namespace CodeMania.Android
 			
 			// aapt resource value: 0x7f060005
 			public const int flagImageView = 2131099653;
+			
+			// aapt resource value: 0x7f060007
+			public const int newCurrencyAmount = 2131099655;
 			
 			// aapt resource value: 0x7f060000
 			public const int relativeLayout1 = 2131099648;
@@ -143,6 +146,9 @@ namespace CodeMania.Android
 			
 			// aapt resource value: 0x7f030002
 			public const int Main = 2130903042;
+			
+			// aapt resource value: 0x7f030003
+			public const int NewCurrencyDialog = 2130903043;
 			
 			static Layout()
 			{
