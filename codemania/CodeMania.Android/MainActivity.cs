@@ -10,6 +10,7 @@ using BigTed.Core;
 using Android.Text.Style;
 using TinyMessenger;
 using CodeMania.Core.Model;
+using Android;
 
 namespace CodeMania.Android
 {
@@ -20,6 +21,7 @@ namespace CodeMania.Android
 		string CurrentBaseCurrency = "USD";
 		float CurrentCurrencyValue = 100f;
 		Currency CurrentCurrencyList;
+		ListView currencyListView;
 
 		protected override void OnCreate(Bundle bundle)
 		{
@@ -33,6 +35,8 @@ namespace CodeMania.Android
 
 			// Set our view from the "main" layout resource
 			SetContentView(Resource.Layout.Main);
+
+			SetupUI();
 
 
 			source = Container.Resolve<ICurrencySource>();
@@ -51,6 +55,27 @@ namespace CodeMania.Android
 			Container.Unsubscribe<RefreshErrorMessage>(errorToken);
 		}
 
+		void SetupUI()
+		{
+			currencyListView = (ListView)FindViewById(Resource.Id.currencyListView);
+			currencyListView.Adapter = new CurrencyListAdapter(this, CurrentCurrencyList, CurrentCurrencyValue);
+			currencyListView.ItemClick += (sender, e) =>
+			{
+				var adapter = (currencyListView.Adapter as CurrencyListAdapter);
+				if (e.Position == 0)
+				{
+					CurrentCurrencyValue += 100f;
+					adapter.BaseCurrencyAmount = CurrentCurrencyValue;
+
+				}
+				else
+				{
+					var newCurrency = adapter.Currencies.Currencys[e.Position - 1].Id;
+					source.GetCurrencyForBase(newCurrency);
+				}
+			};
+		}
+
 		TinyMessageSubscriptionToken reloadToken, refreshToken, errorToken;
 
 		void SetupMessages()
@@ -59,8 +84,11 @@ namespace CodeMania.Android
 			{
 				CurrentCurrencyList = msg.NewCurrency;
 
+
+
 				RunOnUiThread(() =>
 				{
+					(currencyListView.Adapter as CurrencyListAdapter).Currencies = msg.NewCurrency;
 					foreach (var rate in CurrentCurrencyList.Currencys)
 					{
 						Console.WriteLine(rate.Id + " " + rate.Rate);

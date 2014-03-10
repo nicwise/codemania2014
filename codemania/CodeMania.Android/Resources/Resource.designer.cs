@@ -50,7 +50,40 @@ namespace CodeMania.Android
 			public const int action_refresh = 2130837504;
 			
 			// aapt resource value: 0x7f020001
-			public const int Icon = 2130837505;
+			public const int AUD = 2130837505;
+			
+			// aapt resource value: 0x7f020002
+			public const int BTC = 2130837506;
+			
+			// aapt resource value: 0x7f020003
+			public const int CAD = 2130837507;
+			
+			// aapt resource value: 0x7f020004
+			public const int CHF = 2130837508;
+			
+			// aapt resource value: 0x7f020005
+			public const int DOG = 2130837509;
+			
+			// aapt resource value: 0x7f020006
+			public const int EUR = 2130837510;
+			
+			// aapt resource value: 0x7f020007
+			public const int GBP = 2130837511;
+			
+			// aapt resource value: 0x7f020008
+			public const int Icon = 2130837512;
+			
+			// aapt resource value: 0x7f020009
+			public const int INR = 2130837513;
+			
+			// aapt resource value: 0x7f02000a
+			public const int JPY = 2130837514;
+			
+			// aapt resource value: 0x7f02000b
+			public const int NZD = 2130837515;
+			
+			// aapt resource value: 0x7f02000c
+			public const int USD = 2130837516;
 			
 			static Drawable()
 			{
@@ -65,8 +98,29 @@ namespace CodeMania.Android
 		public partial class Id
 		{
 			
+			// aapt resource value: 0x7f060007
+			public const int action_refresh = 2131099655;
+			
+			// aapt resource value: 0x7f060004
+			public const int backgroundLayout = 2131099652;
+			
+			// aapt resource value: 0x7f060006
+			public const int currencyListView = 2131099654;
+			
+			// aapt resource value: 0x7f060001
+			public const int currencyName = 2131099649;
+			
+			// aapt resource value: 0x7f060002
+			public const int currencyRate = 2131099650;
+			
+			// aapt resource value: 0x7f060003
+			public const int currencyValue = 2131099651;
+			
+			// aapt resource value: 0x7f060005
+			public const int flagImageView = 2131099653;
+			
 			// aapt resource value: 0x7f060000
-			public const int action_refresh = 2131099648;
+			public const int relativeLayout1 = 2131099648;
 			
 			static Id()
 			{
@@ -82,7 +136,13 @@ namespace CodeMania.Android
 		{
 			
 			// aapt resource value: 0x7f030000
-			public const int Main = 2130903040;
+			public const int CurrencyView = 2130903040;
+			
+			// aapt resource value: 0x7f030001
+			public const int HeaderView = 2130903041;
+			
+			// aapt resource value: 0x7f030002
+			public const int Main = 2130903042;
 			
 			static Layout()
 			{

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:minWidth="25px"
+    android:minHeight="25px"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:id="@+id/backgroundLayout"
+    android:clipToPadding="false"
+    android:layoutMode="clipBounds">
+    <TextView
+        android:text="Large Text"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/currencyName"
+        android:layout_toRightOf="@+id/flagImageView"
+        android:gravity="center"
+        android:textStyle="bold"
+        android:paddingTop="16dp"
+        android:paddingBottom="16dp"
+        android:shadowColor="#000000"
+        android:shadowDy="4"
+        android:shadowRadius="5" />
+    <TextView
+        android:text="$999,999"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/currencyValue"
+        android:layout_toRightOf="@+id/flagImageView"
+        android:layout_below="@+id/currencyName"
+        android:gravity="center"
+        android:paddingBottom="16dp"
+        android:shadowColor="#000000"
+        android:shadowDy="3"
+        android:shadowRadius="3" />
+</RelativeLayout>

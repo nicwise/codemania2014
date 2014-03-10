@@ -39,7 +39,7 @@ namespace CodeMania.Core
 			rates.Currencys.Add(new CurrencyRate
 			{
 				Id = "BTC",
-				Rate = 565f
+				Rate = 1 / 565f
 			});
 
 			var database = Container.Resolve<ICurrencyDatabase>();

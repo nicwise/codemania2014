@@ -60,6 +60,7 @@
     <Compile Include="TinyIoC.cs" />
     <Compile Include="TinyIOCWrapper.cs" />
     <Compile Include="PlatformSetup.cs" />
+    <Compile Include="Adapters\CurrencyListAdapter.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
@@ -73,6 +74,19 @@
     <AndroidResource Include="Resources\drawable\Icon.png" />
     <AndroidResource Include="Resources\menu\main_activity_actions.xml" />
     <AndroidResource Include="Resources\drawable\action_refresh.png" />
+    <AndroidResource Include="Resources\layout\HeaderView.axml" />
+    <AndroidResource Include="Resources\layout\CurrencyView.axml" />
+    <AndroidResource Include="Resources\drawable\AUD.jpg" />
+    <AndroidResource Include="Resources\drawable\BTC.jpg" />
+    <AndroidResource Include="Resources\drawable\CAD.jpg" />
+    <AndroidResource Include="Resources\drawable\CHF.jpg" />
+    <AndroidResource Include="Resources\drawable\DOG.jpg" />
+    <AndroidResource Include="Resources\drawable\EUR.jpg" />
+    <AndroidResource Include="Resources\drawable\GBP.jpg" />
+    <AndroidResource Include="Resources\drawable\INR.jpg" />
+    <AndroidResource Include="Resources\drawable\JPY.jpg" />
+    <AndroidResource Include="Resources\drawable\NZD.jpg" />
+    <AndroidResource Include="Resources\drawable\USD.jpg" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Novell\Novell.MonoDroid.CSharp.targets" />
   <ItemGroup>
@@ -87,5 +101,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Resources\menu\" />
+    <Folder Include="Adapters\" />
   </ItemGroup>
 </Project>

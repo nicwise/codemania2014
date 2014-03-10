@@ -1,29 +1,9 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="CodeMania.Core/WellingtonCurrencySource.cs">
-    <Files>
-      <File FileName="CodeMania.IOS/CurrencyListCollectionViewController.cs" Line="25" Column="32" />
-      <File FileName="CodeMania.IOS/AppDelegate.cs" Line="32" Column="36" />
-      <File FileName="CodeMania.IOS/PlatformSetup.cs" Line="1" Column="1" />
-      <File FileName="CodeMania.Core/App.cs" Line="17" Column="36" />
-      <File FileName="CodeMania.IOS/AmountEditViewController.cs" Line="1" Column="1" />
-      <File FileName="CodeMania.Android/PlatformSetup.cs" Line="18" Column="37" />
-      <File FileName="CodeMania.Android/MainActivity.cs" Line="38" Column="32" />
-      <File FileName="CodeMania.Tests/ClientFixture.cs" Line="47" Column="36" />
-      <File FileName="CodeMania.Android/TinyIOCWrapper.cs" Line="9" Column="37" />
-      <File FileName="BigTed.Core/IContainer.cs" Line="10" Column="81" />
-      <File FileName="CodeMania.IOS/TinyIoC.cs" Line="1" Column="1" />
-      <File FileName="CodeMania.IOS/TinyIOCWrapper.cs" Line="47" Column="49" />
-      <File FileName="BigTed.Core/Container.cs" Line="25" Column="103" />
-      <File FileName="BigTed.Core/Logger.cs" Line="15" Column="31" />
-      <File FileName="CodeMania.Core/Client/CurrencyClient.cs" Line="19" Column="31" />
-      <File FileName="CodeMania.Core/CurrencyDatabase.cs" Line="58" Column="1" />
-      <File FileName="CodeMania.Core/WellingtonCurrencySource.cs" Line="45" Column="29" />
-    </Files>
-  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.Workbench />
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore />
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
-  <MonoDevelop.Ide.ItemProperties.Targets.CodeMania.Android MonoForAntroid.PreferredDevice="Nexus 7" AndroidDeviceId-Debug="emulator-5554" />
+  <MonoDevelop.Ide.ItemProperties.Targets.CodeMania.Android MonoForAntroid.PreferredDevice="Nexus 5" AndroidDeviceId-Debug="emulator-5554" />
 </Properties>
