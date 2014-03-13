@@ -114,6 +114,6 @@ Global
 		{F83CDE55-D0EB-454D-BC6F-23D84AF9829A} = {E8D7944E-0E06-4F98-A063-7EF54C31C96E}
 	EndGlobalSection
 	GlobalSection(MonoDevelopProperties) = preSolution
-		StartupItem = CodeMania.Android\CodeMania.Android.csproj
+		StartupItem = CodeMania.IOS\CodeMania.IOS.csproj
 	EndGlobalSection
 EndGlobal

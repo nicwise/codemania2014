@@ -1,8 +1,16 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="CodeMania.Android/MainActivity.cs">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.IPhone.IPhoneSimulatorTarget.IPhoneRetina.7.1" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="CodeMania.Core/Client/CurrencyClient.cs">
     <Files>
-      <File FileName="CodeMania.Android/MainActivity.cs" Line="93" Column="5" />
+      <File FileName="CodeMania.Core/Client/CurrencyClient.cs" Line="7" Column="19" />
+      <File FileName="CodeMania.IOS/PlatformSetup.cs" Line="15" Column="6" />
+      <File FileName="CodeMania.Android/PlatformSetup.cs" Line="15" Column="6" />
+      <File FileName="CodeMania.Core/Model/OpenExchangeModel.cs" Line="10" Column="44" />
+      <File FileName="CodeMania.IOS/CurrencyListCollectionViewController.cs" Line="28" Column="21" />
+      <File FileName="CodeMania.Core/CurrencySource.cs" Line="31" Column="1" />
+      <File FileName="CodeMania.Core/App.cs" Line="13" Column="49" />
+      <File FileName="CodeMania.IOS/AppDelegate.cs" Line="36" Column="1" />
+      <File FileName="CodeMania.Core/Model/Currency.cs" Line="11" Column="41" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

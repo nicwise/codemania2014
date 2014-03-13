@@ -10,7 +10,7 @@ namespace CodeMania.Core
 		public static void Setup()
 		{
 			Container.RegisterSingleton<ICurrencyClient, CurrencyClient>();
-			Container.RegisterSingleton<ICurrencySource, WellingtonCurrencySource>();
+			Container.RegisterSingleton<ICurrencySource, CurrencySource>();
 			Container.RegisterSingleton<ICurrencyDatabase, CurrencyDatabase>();
 			Container.RegisterSingleton<ILogger, Logger>();
 

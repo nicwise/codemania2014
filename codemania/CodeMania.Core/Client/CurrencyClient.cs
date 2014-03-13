@@ -18,13 +18,11 @@ namespace CodeMania.Core.Client
 
 	public class CurrencyClient : ICurrencyClient
 	{
-		public static string ClientUrl { get; set; }
+		//getting a key is free. Don't abuse mine too much.
+		public static string ClientUrl = "http://openexchangerates.org/api/latest.json?app_id=705e4fac763b4613ac478aa2b78b97e3";
 
 		public CurrencyClient()
 		{
-			if (string.IsNullOrEmpty(ClientUrl))
-				ClientUrl = "http://localhost:3000/codemania/rates?baseCurrency={0}";
-
 		}
 
 		public async Task<Currency> GetRates()
@@ -32,11 +30,24 @@ namespace CodeMania.Core.Client
 			try
 			{
 				var httpClient = new HttpClient();
-				HttpResponseMessage response = await httpClient.GetAsync(string.Format(ClientUrl, "USD"));
+				HttpResponseMessage response = await httpClient.GetAsync(ClientUrl);
 				if (response.IsSuccessStatusCode)
 				{
 					var res = await response.Content.ReadAsStringAsync();
-					return JsonConvert.DeserializeObject<Currency>(res);
+					var openExchangeData = JsonConvert.DeserializeObject<OpenExchangeModel>(res);
+
+					var currency = new Currency();
+					currency.BaseCurrency = openExchangeData.Base;
+					foreach (var key in openExchangeData.Rates.Keys)
+					{
+						currency.Currencys.Add(new CurrencyRate
+						{
+							Id = key,
+							Rate = openExchangeData.Rates[key]
+						});
+					}
+
+					return currency;
 
 				}
 			}

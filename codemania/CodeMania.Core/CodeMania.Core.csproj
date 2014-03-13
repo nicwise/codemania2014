@@ -41,6 +41,7 @@
     <Compile Include="CurrencyDatabase.cs" />
     <Compile Include="ExtensionMethods.cs" />
     <Compile Include="WellingtonCurrencySource.cs" />
+    <Compile Include="Model\OpenExchangeModel.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <ItemGroup>
