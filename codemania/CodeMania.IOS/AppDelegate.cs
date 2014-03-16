@@ -5,6 +5,7 @@ using MonoTouch.Foundation;
 using MonoTouch.UIKit;
 using CodeMania.Core;
 using BigTed.Core;
+using System.Threading.Tasks;
 
 namespace CodeMania.IOS
 {
@@ -28,9 +29,6 @@ namespace CodeMania.IOS
 			App.Setup();
 
 			PlatformSetup.SetupDatabase();
-
-			var source = Container.Resolve<ICurrencySource>();
-			source.RefreshFromSource();
 
 			return true;
 		}

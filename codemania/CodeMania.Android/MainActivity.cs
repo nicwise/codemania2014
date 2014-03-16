@@ -12,6 +12,7 @@ using TinyMessenger;
 using CodeMania.Core.Model;
 using Android;
 using Java.Lang;
+using System.Threading.Tasks;
 
 namespace CodeMania.Android
 {
@@ -34,16 +35,16 @@ namespace CodeMania.Android
 
 			PlatformSetup.SetupDatabase();
 
-			// Set our view from the "main" layout resource
-			SetContentView(Resource.Layout.Main);
-
 			SetupUI();
-
-
-			source = Container.Resolve<ICurrencySource>();
-			source.RefreshFromSource();
-
 			SetupMessages();
+
+			Task.Factory.StartNew (() =>
+			{
+				source = Container.Resolve<ICurrencySource> ();
+				source.RefreshFromSource ();
+			});
+
+
 
 		}
 
@@ -58,6 +59,10 @@ namespace CodeMania.Android
 
 		void SetupUI()
 		{
+
+			// Set our view from the "main" layout resource
+			SetContentView(Resource.Layout.Main);
+
 			currencyListView = (ListView)FindViewById(Resource.Id.currencyListView);
 			currencyListView.Adapter = new CurrencyListAdapter(this, CurrentCurrencyList, CurrentCurrencyValue);
 			currencyListView.ItemClick += (sender, e) =>
@@ -119,20 +124,14 @@ namespace CodeMania.Android
 			{
 				CurrentCurrencyList = msg.NewCurrency;
 
-
-
 				RunOnUiThread(() =>
 				{
 					(currencyListView.Adapter as CurrencyListAdapter).Currencies = msg.NewCurrency;
-					foreach (var rate in CurrentCurrencyList.Currencys)
-					{
-						Console.WriteLine(rate.Id + " " + rate.Rate);
-					}
 				});
 			});
-			refreshToken = Container.Subscribe<CurrencyRefreshMessage>(msg =>
+			refreshToken = Container.Subscribe<CurrencyRefreshMessage>(async msg => 
 			{
-				source.GetCurrencyForBase(CurrentBaseCurrency);
+				await source.GetCurrencyForBase(CurrentBaseCurrency);
 			});
 
 			errorToken = Container.Subscribe<RefreshErrorMessage>(msg =>
@@ -155,8 +154,12 @@ namespace CodeMania.Android
 			switch (item.ItemId)
 			{
 				case Resource.Id.action_refresh:
-					source.RefreshFromSource();
-					source.GetCurrencyForBase(CurrentBaseCurrency);
+					Task.Factory.StartNew (() =>
+					{
+						source.RefreshFromSource();
+						source.GetCurrencyForBase(CurrentBaseCurrency);
+					});
+
 					return true;
 				default:
 					return base.OnOptionsItemSelected(item);

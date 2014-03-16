@@ -30,14 +30,6 @@ namespace CodeMania.Core
 			db.Connection = conn;
 			db.RegisterTables();
 		}
-
-		public static ICurrencyDatabase Database
-		{
-			get
-			{
-				return Container.Resolve<ICurrencyDatabase>();
-			}
-		}
 	}
 }
 

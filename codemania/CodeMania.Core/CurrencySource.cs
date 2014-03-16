@@ -35,7 +35,6 @@ namespace CodeMania.Core
 			if (rates == null)
 			{
 				Container.PublishAsync(new RefreshErrorMessage("Latest rates not available"));
-
 				return;
 			}
 
@@ -43,7 +42,6 @@ namespace CodeMania.Core
 
 			var database = Container.Resolve<ICurrencyDatabase>();
 			await database.UpdateRates(rates);
-
 
 			Container.PublishAsync(new CurrencyRefreshMessage());
 		}
@@ -54,8 +52,7 @@ namespace CodeMania.Core
 			var database = Container.Resolve<ICurrencyDatabase>();
 			var usdRates = await database.GetRates();
 
-			var baseRates = await RebaseRates(usdRates, baseCurrency);
-
+			var baseRates = RebaseRates(usdRates, baseCurrency);
 
 			Container.PublishAsync(new CurrencyHasReloadedMessage(FilterRates(baseRates, baseCurrency, CurrencySet)));
 
@@ -74,7 +71,7 @@ namespace CodeMania.Core
 
 		}
 
-		async Task<Currency> RebaseRates(Currency usdRates, string baseCurrency)
+		Currency RebaseRates(Currency usdRates, string baseCurrency)
 		{
 			var currency = new Currency
 			{

@@ -8,6 +8,7 @@ using CodeMania.Core;
 using TinyMessenger;
 using System.Diagnostics;
 using BigTed;
+using System.Threading.Tasks;
 
 namespace CodeMania.IOS
 {
@@ -24,8 +25,10 @@ namespace CodeMania.IOS
 
 		partial void RefreshCurrency(NSObject sender)
 		{
-			source.RefreshFromSource();
-			source.GetCurrencyForBase(CurrentBaseCurrency);
+			Task.Factory.StartNew(() => {
+				var source = Container.Resolve<ICurrencySource>();
+				source.RefreshFromSource();
+			});
 		}
 
 		partial void returned(UIStoryboardSegue segue)
@@ -52,6 +55,7 @@ namespace CodeMania.IOS
 		{
 			reloadToken = Container.Subscribe<CurrencyHasReloadedMessage>(msg =>
 			{
+
 				CurrentCurrencyList = msg.NewCurrency;
 				InvokeOnMainThread(() =>
 				{
@@ -60,6 +64,7 @@ namespace CodeMania.IOS
 						CollectionView.ScrollToItem(NSIndexPath.FromItemSection(0, 0), UICollectionViewScrollPosition.Top, true);
 				});
 			});
+
 			refreshToken = Container.Subscribe<CurrencyRefreshMessage>(msg =>
 			{
 				source.GetCurrencyForBase(CurrentBaseCurrency);
@@ -79,15 +84,11 @@ namespace CodeMania.IOS
 			base.ViewDidLoad();
 
 			SetupMessages();
-			source.GetCurrencyForBase(CurrentBaseCurrency);
+			Task.Factory.StartNew(() => {
+				var source = Container.Resolve<ICurrencySource>();
+				source.RefreshFromSource();
+			});
 
-		}
-
-		public override void ViewWillAppear(bool animated)
-		{
-			base.ViewWillAppear(animated);
-
-			source.GetCurrencyForBase(CurrentBaseCurrency);
 		}
 
 		Currency CurrentCurrencyList = null;
@@ -143,7 +144,6 @@ namespace CodeMania.IOS
 				})
 				{
 					NumberOfTapsRequired = 1
-
 				};
 
 				header.AddGestureRecognizer(guesture);
@@ -167,10 +167,10 @@ namespace CodeMania.IOS
 			CurrentBaseCurrency = rate.Id;
 			CurrentBaseCurrencyAmount = 100f;
 
-			source.GetCurrencyForBase(rate.Id);
-
-			//"AmountEditSegue"
-
+			Task.Factory.StartNew (() =>
+			{
+				source.GetCurrencyForBase (rate.Id);
+			});
 		}
 	}
 }

@@ -10,9 +10,6 @@ namespace CodeMania.Android
 		public static void Setup()
 		{
 			TinyIoCWrapper.Init();
-
-			//the IOS simulator can't use localhost!
-			//CurrencyClient.ClientUrl = "http://192.168.1.181:3000/codemania/rates?baseCurrency={0}";
 		}
 
 		public static void SetupDatabase()

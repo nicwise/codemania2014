@@ -49,7 +49,7 @@ namespace CodeMania
 				}
 				if (currencyName == "BTC")
 				{
-					return string.Format ("{0:0.00#####}", value);
+					return string.Format ("{0:0.00#####}Ƀ", value);
 				}
 
 				return string.Format ("{0:0.00} {1}", value, currencyName);

@@ -1,21 +1,29 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.IPhone.IPhoneSimulatorTarget.IPhoneRetina.7.1" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="CodeMania.Core/Client/CurrencyClient.cs">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.IPhone.IPhoneSimulatorTarget.IPhoneRetina4.7.1" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="CodeMania.IOS/CurrencyListCollectionViewController.cs">
     <Files>
-      <File FileName="CodeMania.Core/Client/CurrencyClient.cs" Line="7" Column="19" />
-      <File FileName="CodeMania.IOS/PlatformSetup.cs" Line="15" Column="6" />
-      <File FileName="CodeMania.Android/PlatformSetup.cs" Line="15" Column="6" />
-      <File FileName="CodeMania.Core/Model/OpenExchangeModel.cs" Line="10" Column="44" />
-      <File FileName="CodeMania.IOS/CurrencyListCollectionViewController.cs" Line="28" Column="21" />
-      <File FileName="CodeMania.Core/CurrencySource.cs" Line="31" Column="1" />
-      <File FileName="CodeMania.Core/App.cs" Line="13" Column="49" />
-      <File FileName="CodeMania.IOS/AppDelegate.cs" Line="36" Column="1" />
-      <File FileName="CodeMania.Core/Model/Currency.cs" Line="11" Column="41" />
+      <File FileName="CodeMania.IOS/AppDelegate.cs" Line="32" Column="4" />
+      <File FileName="CodeMania.Android/MainActivity.cs" Line="39" Column="20" />
+      <File FileName="CodeMania.IOS/CurrencyListCollectionViewController.cs" Line="166" Column="4" />
     </Files>
+    <Pads>
+      <Pad Id="ProjectPad">
+        <State expanded="True">
+          <Node name="Core" expanded="True" />
+          <Node name="Targets" expanded="True">
+            <Node name="CodeMania.Android" expanded="True" />
+            <Node name="CodeMania.IOS" expanded="True">
+              <Node name="ComponentReferenceFolder" expanded="True" />
+              <Node name="CurrencyListCollectionViewController.cs" expanded="True" selected="True" />
+            </Node>
+          </Node>
+          <Node name="CodeMania.Core" expanded="True" />
+        </State>
+      </Pad>
+    </Pads>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore />
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
-  <MonoDevelop.Ide.ItemProperties.Targets.CodeMania.Android MonoForAntroid.PreferredDevice="Nexus 5" AndroidDeviceId-Debug="emulator-5554" />
 </Properties>
