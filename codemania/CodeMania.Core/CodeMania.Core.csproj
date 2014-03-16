@@ -47,7 +47,6 @@
   <ItemGroup>
     <Folder Include="Model\" />
     <Folder Include="Client\" />
-    <Folder Include="TinyIoC\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\BigTed.Core\BigTed.Core.csproj">
