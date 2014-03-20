@@ -105,7 +105,7 @@ namespace CodeMania.Android
 			public const int backgroundLayout = 2131099652;
 			
 			// aapt resource value: 0x7f060006
-			public const int currencyListView = 2131099654;
+			public const int currencyGridView = 2131099654;
 			
 			// aapt resource value: 0x7f060001
 			public const int currencyName = 2131099649;

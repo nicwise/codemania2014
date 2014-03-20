@@ -24,6 +24,7 @@ namespace CodeMania.Android
 		float CurrentCurrencyValue = 100f;
 		Currency CurrentCurrencyList;
 		ListView currencyListView;
+		GridView currencyGridView;
 
 		protected override void OnCreate(Bundle bundle)
 		{
@@ -63,7 +64,25 @@ namespace CodeMania.Android
 			// Set our view from the "main" layout resource
 			SetContentView(Resource.Layout.Main);
 
-			currencyListView = (ListView)FindViewById(Resource.Id.currencyListView);
+			currencyGridView = (GridView)FindViewById (Resource.Id.currencyGridView);
+			currencyGridView.Adapter = new CurrencyListAdapter(this, CurrentCurrencyList, CurrentCurrencyValue);
+			currencyGridView.ItemClick += (sender, e) =>
+			{
+				var adapter = (currencyGridView.Adapter as CurrencyListAdapter);
+				if (e.Position == 0)
+				{
+					SelectNewCurrencyAmount();
+				}
+				else
+				{
+					var newCurrency = adapter.Currencies.Currencys[e.Position - 1].Id;
+					source.GetCurrencyForBase(newCurrency);
+				}
+			};
+
+
+
+			/*currencyListView = (ListView)FindViewById(Resource.Id.currencyListView);
 			currencyListView.Adapter = new CurrencyListAdapter(this, CurrentCurrencyList, CurrentCurrencyValue);
 			currencyListView.ItemClick += (sender, e) =>
 			{
@@ -78,6 +97,7 @@ namespace CodeMania.Android
 					source.GetCurrencyForBase(newCurrency);
 				}
 			};
+			*/
 		}
 
 		void SelectNewCurrencyAmount()
@@ -126,12 +146,12 @@ namespace CodeMania.Android
 
 				RunOnUiThread(() =>
 				{
-					(currencyListView.Adapter as CurrencyListAdapter).Currencies = msg.NewCurrency;
+					(currencyGridView.Adapter as CurrencyListAdapter).Currencies = msg.NewCurrency;
 				});
 			});
 			refreshToken = Container.Subscribe<CurrencyRefreshMessage>(async msg => 
 			{
-				await source.GetCurrencyForBase(CurrentBaseCurrency);
+				source.GetCurrencyForBase(CurrentBaseCurrency);
 			});
 
 			errorToken = Container.Subscribe<RefreshErrorMessage>(msg =>
