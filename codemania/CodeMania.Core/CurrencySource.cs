@@ -12,9 +12,9 @@ namespace CodeMania.Core
 	{
 		string[] CurrencySet { get; set; }
 
-		void RefreshFromSource();
+		Task RefreshFromSource();
 
-		void GetCurrencyForBase(string baseCurrency);
+		Task GetCurrencyForBase(string baseCurrency);
 	}
 
 	public class CurrencySource : ICurrencySource
@@ -26,7 +26,7 @@ namespace CodeMania.Core
 
 		public string[] CurrencySet { get; set; }
 
-		public virtual async void RefreshFromSource()
+		public virtual async Task RefreshFromSource()
 		{
 			var client = Container.Resolve<ICurrencyClient>();
 			var rates = await client.GetRates();
@@ -46,7 +46,7 @@ namespace CodeMania.Core
 			Container.PublishAsync(new CurrencyRefreshMessage());
 		}
 
-		public async void GetCurrencyForBase(string baseCurrency)
+		public async Task GetCurrencyForBase(string baseCurrency)
 		{
 
 			var database = Container.Resolve<ICurrencyDatabase>();

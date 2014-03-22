@@ -101,9 +101,6 @@ namespace CodeMania.Android
 			// aapt resource value: 0x7f060008
 			public const int action_refresh = 2131099656;
 			
-			// aapt resource value: 0x7f060004
-			public const int backgroundLayout = 2131099652;
-			
 			// aapt resource value: 0x7f060006
 			public const int currencyGridView = 2131099654;
 			
@@ -118,6 +115,9 @@ namespace CodeMania.Android
 			
 			// aapt resource value: 0x7f060005
 			public const int flagImageView = 2131099653;
+			
+			// aapt resource value: 0x7f060004
+			public const int headerLayout = 2131099652;
 			
 			// aapt resource value: 0x7f060007
 			public const int newCurrencyAmount = 2131099655;
@@ -142,13 +142,10 @@ namespace CodeMania.Android
 			public const int CurrencyView = 2130903040;
 			
 			// aapt resource value: 0x7f030001
-			public const int HeaderView = 2130903041;
+			public const int Main = 2130903041;
 			
 			// aapt resource value: 0x7f030002
-			public const int Main = 2130903042;
-			
-			// aapt resource value: 0x7f030003
-			public const int NewCurrencyDialog = 2130903043;
+			public const int NewCurrencyDialog = 2130903042;
 			
 			static Layout()
 			{

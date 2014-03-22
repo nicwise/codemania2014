@@ -3,6 +3,7 @@ using BigTed.Core;
 using CodeMania.Core.Client;
 using CodeMania.Core.Model;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace CodeMania.Core
 {
@@ -10,7 +11,7 @@ namespace CodeMania.Core
 	//and my flight has been delayed again...
 	public class WellingtonCurrencySource : CurrencySource
 	{
-		public override  async void RefreshFromSource()
+		public override  async Task RefreshFromSource()
 		{
 			var rates = new Currency()
 			{

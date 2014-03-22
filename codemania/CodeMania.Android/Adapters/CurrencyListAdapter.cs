@@ -53,7 +53,7 @@ namespace CodeMania.Android
 				if (currencies == null)
 					return 0;
 
-				return currencies.Currencys.Count + 1;
+				return currencies.Currencys.Count;
 			}
 		}
 
@@ -67,55 +67,25 @@ namespace CodeMania.Android
 			return position;
 		}
 
-		int FlagIdFromCurrencyName(string currency)
-		{
 
-			Type drawableType = typeof(Resource.Drawable);
-
-			var field = drawableType.GetField(currency);
-
-			if (field != null)
-			{
-				return (int)field.GetValue(null);
-			}
-
-			return -1;
-		}
 
 		public override View GetView(int position, View convertView, ViewGroup parent)
 		{
-			Console.WriteLine("line: " + position);
-			if (position == 0)
+
+			var thisRate = currencies.Currencys[position];
+			if (convertView == null)
 			{
-				if (convertView == null)
-				{
-					convertView = inflater.Inflate(Resource.Layout.HeaderView, parent, false);
-				}
-				var currencyName = (TextView)convertView.FindViewById(Resource.Id.currencyName);
-				var currencyValue = (TextView)convertView.FindViewById(Resource.Id.currencyValue);
-				var backgroundLayout = (RelativeLayout)convertView.FindViewById(Resource.Id.backgroundLayout);
-
-				currencyName.Text = currencies.BaseCurrency;
-				currencyValue.Text = BaseCurrencyAmount.FormatCurrency(currencies.BaseCurrency);
-				backgroundLayout.SetBackgroundResource(FlagIdFromCurrencyName(currencies.BaseCurrency));
-
+				convertView = inflater.Inflate(Resource.Layout.CurrencyView, parent, false);
 			}
-			else
-			{
-				var thisRate = currencies.Currencys[position - 1];
-				if (convertView == null)
-				{
-					convertView = inflater.Inflate(Resource.Layout.CurrencyView, parent, false);
-				}
-				var currencyName = (TextView)convertView.FindViewById(Resource.Id.currencyName);
-				var currencyRate = (TextView)convertView.FindViewById(Resource.Id.currencyRate);
-				var currencyValue = (TextView)convertView.FindViewById(Resource.Id.currencyValue);
+			var currencyName = (TextView)convertView.FindViewById(Resource.Id.currencyName);
+			var currencyRate = (TextView)convertView.FindViewById(Resource.Id.currencyRate);
+			var currencyValue = (TextView)convertView.FindViewById(Resource.Id.currencyValue);
 
-				currencyName.Text = thisRate.Id;
-				currencyRate.Text = thisRate.Rate.ToString();
-				currencyValue.Text = (BaseCurrencyAmount * thisRate.Rate).FormatCurrency(thisRate.Id);
+			currencyName.Text = thisRate.Id;
+			currencyRate.Text = string.Format ("Rate: {0}", thisRate.Rate.ToString ());
+			currencyValue.Text = (BaseCurrencyAmount * thisRate.Rate).FormatCurrency(thisRate.Id);
 
-			}
+
 
 			return convertView;
 

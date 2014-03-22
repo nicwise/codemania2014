@@ -74,7 +74,6 @@
     <AndroidResource Include="Resources\drawable\Icon.png" />
     <AndroidResource Include="Resources\menu\main_activity_actions.xml" />
     <AndroidResource Include="Resources\drawable\action_refresh.png" />
-    <AndroidResource Include="Resources\layout\HeaderView.axml" />
     <AndroidResource Include="Resources\layout\CurrencyView.axml" />
     <AndroidResource Include="Resources\drawable\AUD.jpg" />
     <AndroidResource Include="Resources\drawable\BTC.jpg" />

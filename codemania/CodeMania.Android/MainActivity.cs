@@ -23,8 +23,10 @@ namespace CodeMania.Android
 		string CurrentBaseCurrency = "USD";
 		float CurrentCurrencyValue = 100f;
 		Currency CurrentCurrencyList;
-		ListView currencyListView;
 		GridView currencyGridView;
+		TextView currencyName;
+		TextView currencyValue;
+		RelativeLayout backgroundLayout;
 
 		protected override void OnCreate(Bundle bundle)
 		{
@@ -39,10 +41,10 @@ namespace CodeMania.Android
 			SetupUI();
 			SetupMessages();
 
-			Task.Factory.StartNew (() =>
+			Task.Factory.StartNew (async () =>
 			{
 				source = Container.Resolve<ICurrencySource> ();
-				source.RefreshFromSource ();
+				await source.RefreshFromSource ();
 			});
 
 
@@ -64,40 +66,56 @@ namespace CodeMania.Android
 			// Set our view from the "main" layout resource
 			SetContentView(Resource.Layout.Main);
 
+			//grab the header stuff
+			currencyName = (TextView)FindViewById(Resource.Id.currencyName);
+			currencyValue = (TextView)FindViewById(Resource.Id.currencyValue);
+			backgroundLayout = (RelativeLayout)FindViewById(Resource.Id.headerLayout);
+
+			//and set it's values
+			SetHeader ();
+
+			//configure the grid
 			currencyGridView = (GridView)FindViewById (Resource.Id.currencyGridView);
 			currencyGridView.Adapter = new CurrencyListAdapter(this, CurrentCurrencyList, CurrentCurrencyValue);
 			currencyGridView.ItemClick += (sender, e) =>
 			{
 				var adapter = (currencyGridView.Adapter as CurrencyListAdapter);
-				if (e.Position == 0)
-				{
-					SelectNewCurrencyAmount();
-				}
-				else
-				{
-					var newCurrency = adapter.Currencies.Currencys[e.Position - 1].Id;
-					source.GetCurrencyForBase(newCurrency);
-				}
+
+				var newCurrency = adapter.Currencies.Currencys[e.Position].Id;
+				source.GetCurrencyForBase(newCurrency);
+				currencyGridView.SmoothScrollToPosition(0);
+			};
+
+			backgroundLayout.Click += (object sender, EventArgs e) => {
+				SelectNewCurrencyAmount();
 			};
 
 
 
-			/*currencyListView = (ListView)FindViewById(Resource.Id.currencyListView);
-			currencyListView.Adapter = new CurrencyListAdapter(this, CurrentCurrencyList, CurrentCurrencyValue);
-			currencyListView.ItemClick += (sender, e) =>
+		}
+
+		void SetHeader() 
+		{
+			currencyName.Text = CurrentBaseCurrency;
+			currencyValue.Text = CurrentCurrencyValue.FormatCurrency(CurrentBaseCurrency);
+			backgroundLayout.SetBackgroundResource(FlagIdFromCurrencyName(CurrentBaseCurrency));
+
+		}
+
+		//Need to map from "USD" to Resource.Drawable.USD
+		int FlagIdFromCurrencyName(string currency)
+		{
+
+			Type drawableType = typeof(Resource.Drawable);
+
+			var field = drawableType.GetField(currency);
+
+			if (field != null)
 			{
-				var adapter = (currencyListView.Adapter as CurrencyListAdapter);
-				if (e.Position == 0)
-				{
-					SelectNewCurrencyAmount();
-				}
-				else
-				{
-					var newCurrency = adapter.Currencies.Currencys[e.Position - 1].Id;
-					source.GetCurrencyForBase(newCurrency);
-				}
-			};
-			*/
+				return (int)field.GetValue(null);
+			}
+
+			return -1;
 		}
 
 		void SelectNewCurrencyAmount()
@@ -119,9 +137,11 @@ namespace CodeMania.Android
 				float floatVal = 0;
 				if (float.TryParse(val, out floatVal))
 				{
-					var adapter = (currencyListView.Adapter as CurrencyListAdapter);
+					var adapter = (currencyGridView.Adapter as CurrencyListAdapter);
 					CurrentCurrencyValue = floatVal;
 					adapter.BaseCurrencyAmount = floatVal;
+					SetHeader();
+
 				}
 			});
 			builder.SetNegativeButton("Cancel", (object sender, DialogClickEventArgs e) =>
@@ -140,20 +160,33 @@ namespace CodeMania.Android
 
 		void SetupMessages()
 		{
+			//A reload is when the currency info for display is changed.
+			// Doesn't usually mean the database has updated, but it might.
+			// Usually a result of the base currency changing
 			reloadToken = Container.Subscribe<CurrencyHasReloadedMessage>(msg =>
 			{
 				CurrentCurrencyList = msg.NewCurrency;
+				CurrentBaseCurrency = msg.NewCurrency.BaseCurrency;
 
 				RunOnUiThread(() =>
 				{
 					(currencyGridView.Adapter as CurrencyListAdapter).Currencies = msg.NewCurrency;
+					SetHeader();
 				});
 			});
+
+			//A refresh is when the database is updated from the source service
 			refreshToken = Container.Subscribe<CurrencyRefreshMessage>(async msg => 
 			{
-				source.GetCurrencyForBase(CurrentBaseCurrency);
+				RunOnUiThread(() =>
+				{
+					Toast.MakeText(this, "Currencies updated", ToastLength.Short).Show();
+				});
+
+				await source.GetCurrencyForBase(CurrentBaseCurrency);
 			});
 
+			//something went wrong. Cop out and just tell the user
 			errorToken = Container.Subscribe<RefreshErrorMessage>(msg =>
 			{
 				RunOnUiThread(() =>
@@ -174,10 +207,10 @@ namespace CodeMania.Android
 			switch (item.ItemId)
 			{
 				case Resource.Id.action_refresh:
-					Task.Factory.StartNew (() =>
+					Task.Factory.StartNew (async () =>
 					{
-						source.RefreshFromSource();
-						source.GetCurrencyForBase(CurrentBaseCurrency);
+						await source.RefreshFromSource();
+						await source.GetCurrencyForBase(CurrentBaseCurrency);
 					});
 
 					return true;
