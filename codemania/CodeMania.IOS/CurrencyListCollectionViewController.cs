@@ -38,6 +38,7 @@ namespace CodeMania.IOS
 			if (sourceViewController != null)
 			{
 				CurrentBaseCurrencyAmount = sourceViewController.Amount;
+				source.GetCurrencyForBase(CurrentBaseCurrency);
 			}
 		}
 
