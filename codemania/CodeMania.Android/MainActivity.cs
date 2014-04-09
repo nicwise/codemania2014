@@ -16,30 +16,47 @@ using System.Threading.Tasks;
 
 namespace CodeMania.Android
 {
-	[Activity(Label = "Quick Currency", MainLauncher = true)]
+	[Activity (Label = "Quick Currency", MainLauncher = true)]
 	public class MainActivity : Activity
 	{
 		ICurrencySource source;
 		string CurrentBaseCurrency = "USD";
 		float CurrentCurrencyValue = 100f;
 		Currency CurrentCurrencyList;
-		GridView currencyGridView;
-		TextView currencyName;
-		TextView currencyValue;
-		RelativeLayout backgroundLayout;
 
-		protected override void OnCreate(Bundle bundle)
+		//using ControlFetcherMixin - the property name has to match the R.id.xxxx of the item
+		GridView currencyGridView
 		{
-			base.OnCreate(bundle);
+			get { return this.GetControl<GridView> (); }
+		}
+
+		TextView currencyName
+		{
+			get { return this.GetControl<TextView> (); }
+		}
+
+		TextView currencyValue
+		{
+			get { return this.GetControl<TextView> (); }
+		}
+
+		RelativeLayout headerLayout
+		{
+			get { return this.GetControl<RelativeLayout> (); }
+		}
+
+		protected override void OnCreate (Bundle bundle)
+		{
+			base.OnCreate (bundle);
 
 
-			PlatformSetup.Setup();
-			App.Setup();
+			PlatformSetup.Setup ();
+			App.Setup ();
 
-			PlatformSetup.SetupDatabase();
+			PlatformSetup.SetupDatabase ();
 
-			SetupUI();
-			SetupMessages();
+			SetupUI ();
+			SetupMessages ();
 
 			Task.Factory.StartNew (async () =>
 			{
@@ -51,171 +68,170 @@ namespace CodeMania.Android
 
 		}
 
-		protected override void OnDestroy()
+		protected override void OnDestroy ()
 		{
-			base.OnDestroy();
+			base.OnDestroy ();
 
-			Container.Unsubscribe<CurrencyHasReloadedMessage>(reloadToken);
-			Container.Unsubscribe<CurrencyRefreshMessage>(refreshToken);
-			Container.Unsubscribe<RefreshErrorMessage>(errorToken);
+			Container.Unsubscribe<CurrencyHasReloadedMessage> (reloadToken);
+			Container.Unsubscribe<CurrencyRefreshMessage> (refreshToken);
+			Container.Unsubscribe<RefreshErrorMessage> (errorToken);
 		}
 
-		void SetupUI()
+		void SetupUI ()
 		{
 
 			// Set our view from the "main" layout resource
-			SetContentView(Resource.Layout.Main);
+			SetContentView (Resource.Layout.Main);
 
 			//grab the header stuff
-			currencyName = (TextView)FindViewById(Resource.Id.currencyName);
-			currencyValue = (TextView)FindViewById(Resource.Id.currencyValue);
-			backgroundLayout = (RelativeLayout)FindViewById(Resource.Id.headerLayout);
+			//Normally you'd be using 
+			//currencyName = (TextView)FindViewById (Resource.Id.currencyName);
+			//for all the resources, but thanks to ControlFetcherMixin, you dont need to
 
 			//and set it's values
 			SetHeader ();
 
 			//configure the grid
-			currencyGridView = (GridView)FindViewById (Resource.Id.currencyGridView);
-			currencyGridView.Adapter = new CurrencyListAdapter(this, CurrentCurrencyList, CurrentCurrencyValue);
+			currencyGridView.Adapter = new CurrencyListAdapter (this, CurrentCurrencyList, CurrentCurrencyValue);
 			currencyGridView.ItemClick += (sender, e) =>
 			{
 				var adapter = (currencyGridView.Adapter as CurrencyListAdapter);
 
-				var newCurrency = adapter.Currencies.Currencys[e.Position].Id;
-				source.GetCurrencyForBase(newCurrency);
-				currencyGridView.SmoothScrollToPosition(0);
+				var newCurrency = adapter.Currencies.Currencys [e.Position].Id;
+				source.GetCurrencyForBase (newCurrency);
+				currencyGridView.SmoothScrollToPosition (0);
 			};
 
-			backgroundLayout.Click += (object sender, EventArgs e) => {
-				SelectNewCurrencyAmount();
+			headerLayout.Click += (object sender, EventArgs e) =>
+			{
+				SelectNewCurrencyAmount ();
 			};
 
 
 
 		}
 
-		void SetHeader() 
+		void SetHeader ()
 		{
 			currencyName.Text = CurrentBaseCurrency;
-			currencyValue.Text = CurrentCurrencyValue.FormatCurrency(CurrentBaseCurrency);
-			backgroundLayout.SetBackgroundResource(FlagIdFromCurrencyName(CurrentBaseCurrency));
+			currencyValue.Text = CurrentCurrencyValue.FormatCurrency (CurrentBaseCurrency);
+			headerLayout.SetBackgroundResource (FlagIdFromCurrencyName (CurrentBaseCurrency));
 
 		}
-
 		//Need to map from "USD" to Resource.Drawable.USD
-		int FlagIdFromCurrencyName(string currency)
+		int FlagIdFromCurrencyName (string currency)
 		{
 
 			Type drawableType = typeof(Resource.Drawable);
 
-			var field = drawableType.GetField(currency);
+			var field = drawableType.GetField (currency);
 
 			if (field != null)
 			{
-				return (int)field.GetValue(null);
+				return (int)field.GetValue (null);
 			}
 
 			return -1;
 		}
 
-		void SelectNewCurrencyAmount()
+		void SelectNewCurrencyAmount ()
 		{
-			var inflator = (LayoutInflater)this.GetSystemService(Context.LayoutInflaterService);
+			var inflator = (LayoutInflater)this.GetSystemService (Context.LayoutInflaterService);
 
 
-			AlertDialog.Builder builder = new AlertDialog.Builder(this);
-			builder.SetTitle("New Currency Amount");
-			builder.SetView(inflator.Inflate(Resource.Layout.NewCurrencyDialog, null));
-			builder.SetPositiveButton("OK", (object sender, DialogClickEventArgs e) =>
+			AlertDialog.Builder builder = new AlertDialog.Builder (this);
+			builder.SetTitle ("New Currency Amount");
+			builder.SetView (inflator.Inflate (Resource.Layout.NewCurrencyDialog, null));
+			builder.SetPositiveButton ("OK", (object sender, DialogClickEventArgs e) =>
 			{
 				var d = (AlertDialog)sender;
 
-				var textbox = (EditText)d.FindViewById(Resource.Id.newCurrencyAmount);
+				var textbox = (EditText)d.FindViewById (Resource.Id.newCurrencyAmount);
 
 				string val = textbox.Text;
 
 				float floatVal = 0;
-				if (float.TryParse(val, out floatVal))
+				if (float.TryParse (val, out floatVal))
 				{
 					var adapter = (currencyGridView.Adapter as CurrencyListAdapter);
 					CurrentCurrencyValue = floatVal;
 					adapter.BaseCurrencyAmount = floatVal;
-					SetHeader();
+					SetHeader ();
 
 				}
 			});
-			builder.SetNegativeButton("Cancel", (object sender, DialogClickEventArgs e) =>
+			builder.SetNegativeButton ("Cancel", (object sender, DialogClickEventArgs e) =>
 			{
 
 			});
 
 
-			AlertDialog dialog = builder.Create();
+			AlertDialog dialog = builder.Create ();
 
-			dialog.Show();
+			dialog.Show ();
 
 		}
 
 		TinyMessageSubscriptionToken reloadToken, refreshToken, errorToken;
 
-		void SetupMessages()
+		void SetupMessages ()
 		{
 			//A reload is when the currency info for display is changed.
 			// Doesn't usually mean the database has updated, but it might.
 			// Usually a result of the base currency changing
-			reloadToken = Container.Subscribe<CurrencyHasReloadedMessage>(msg =>
+			reloadToken = Container.Subscribe<CurrencyHasReloadedMessage> (msg =>
 			{
 				CurrentCurrencyList = msg.NewCurrency;
 				CurrentBaseCurrency = msg.NewCurrency.BaseCurrency;
 
-				RunOnUiThread(() =>
+				RunOnUiThread (() =>
 				{
 					(currencyGridView.Adapter as CurrencyListAdapter).Currencies = msg.NewCurrency;
-					SetHeader();
+					SetHeader ();
 				});
 			});
 
 			//A refresh is when the database is updated from the source service
-			refreshToken = Container.Subscribe<CurrencyRefreshMessage>(async msg => 
+			refreshToken = Container.Subscribe<CurrencyRefreshMessage> (async msg =>
 			{
-				RunOnUiThread(() =>
+				RunOnUiThread (() =>
 				{
-					Toast.MakeText(this, "Currencies updated", ToastLength.Short).Show();
+					Toast.MakeText (this, "Currencies updated", ToastLength.Short).Show ();
 				});
 
-				await source.GetCurrencyForBase(CurrentBaseCurrency);
+				await source.GetCurrencyForBase (CurrentBaseCurrency);
 			});
 
 			//something went wrong. Cop out and just tell the user
-			errorToken = Container.Subscribe<RefreshErrorMessage>(msg =>
+			errorToken = Container.Subscribe<RefreshErrorMessage> (msg =>
 			{
-				RunOnUiThread(() =>
+				RunOnUiThread (() =>
 				{
-					Toast.MakeText(this, msg.Message, ToastLength.Short).Show();
+					Toast.MakeText (this, msg.Message, ToastLength.Short).Show ();
 				});
 			});
 		}
 
-		public override bool OnCreateOptionsMenu(IMenu menu)
+		public override bool OnCreateOptionsMenu (IMenu menu)
 		{
-			MenuInflater.Inflate(Resource.Menu.main_activity_actions, menu);
-			return base.OnCreateOptionsMenu(menu);
+			MenuInflater.Inflate (Resource.Menu.main_activity_actions, menu);
+			return base.OnCreateOptionsMenu (menu);
 		}
 
-		public override bool OnOptionsItemSelected(IMenuItem item)
+		public override bool OnOptionsItemSelected (IMenuItem item)
 		{
 			switch (item.ItemId)
 			{
 				case Resource.Id.action_refresh:
 					Task.Factory.StartNew (async () =>
 					{
-						await source.RefreshFromSource();
-						await source.GetCurrencyForBase(CurrentBaseCurrency);
+						await source.RefreshFromSource ();
+						await source.GetCurrencyForBase (CurrentBaseCurrency);
 					});
 
 					return true;
 				default:
-					return base.OnOptionsItemSelected(item);
+					return base.OnOptionsItemSelected (item);
 			}
 		}
 	}

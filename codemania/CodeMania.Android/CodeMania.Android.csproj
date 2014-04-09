@@ -61,6 +61,7 @@
     <Compile Include="TinyIOCWrapper.cs" />
     <Compile Include="PlatformSetup.cs" />
     <Compile Include="Adapters\CurrencyListAdapter.cs" />
+    <Compile Include="ControlFetcherMixin.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />

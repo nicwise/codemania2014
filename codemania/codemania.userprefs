@@ -1,16 +1,19 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="CodeMania.IOS/CurrencyListCollectionViewController.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="CodeMania.Core/Client/CurrencyClient.cs">
     <Files>
       <File FileName="CodeMania.IOS/AppDelegate.cs" Line="1" Column="1" />
-      <File FileName="CodeMania.Android/MainActivity.cs" Line="1" Column="1" />
+      <File FileName="CodeMania.Android/MainActivity.cs" Line="27" Column="89" />
       <File FileName="CodeMania.Android/Adapters/CurrencyListAdapter.cs" Line="1" Column="1" />
-      <File FileName="CodeMania.IOS/CurrencyListCollectionViewController.cs" Line="28" Column="33" />
+      <File FileName="CodeMania.IOS/CurrencyListCollectionViewController.cs" Line="1" Column="1" />
+      <File FileName="CodeMania.Core/CurrencySource.cs" Line="1" Column="1" />
+      <File FileName="CodeMania.Core/Client/CurrencyClient.cs" Line="1" Column="1" />
+      <File FileName="CodeMania.Android/ControlFetcherMixin.cs" Line="1" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore />
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
-  <MonoDevelop.Ide.ItemProperties.Targets.CodeMania.Android MonoForAntroid.PreferredDevice="3.7&quot; WVGA (Nexus One)" />
+  <MonoDevelop.Ide.ItemProperties.Targets.CodeMania.Android MonoForAntroid.PreferredDevice="3.7&quot; WVGA (Nexus One)" AndroidDeviceId-Debug="emulator-5554" />
 </Properties>
